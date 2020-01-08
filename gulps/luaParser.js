@@ -8,8 +8,7 @@ const {
 const coreLuaUrlList = [
     "src/core/xx.lua",
     "src/core/Extensions.lua",
-    "src/core/Class.lua",
-    "src/core/Bit.lua",
+    "src/core/Class.lua"
 ];
 
 /**

@@ -1,4 +1,11 @@
 xx = xx or {}
+xx.version = "1.0.0"
+print("xx(lua) version: " .. xx.version)
+local __uidSeed = 0
+function xx.newUID()
+    __uidSeed = __uidSeed + 1
+    return string.format("xx_lua_%d", __uidSeed)
+end
 function xx.Handler(handler, caller, ...)
     local cache = {...}
     if 0 == xx.arrayCount(cache) then
@@ -234,13 +241,6 @@ coroutine.isyieldable = function()
     local _, isMain = coroutine.running()
     return not isMain
 end
-xx.version = "1.0.0"
-print("xx(lua) version: " .. xx.version)
-local __uidSeed = 0
-function xx.newUID()
-    __uidSeed = __uidSeed + 1
-    return string.format("xx_lua_%d", __uidSeed)
-end
 local Class = {__nameClassMap = {}}
 xx.Class = Class
 function Class.getter(instance, key)
@@ -397,6 +397,278 @@ setmetatable(
         end
     }
 )
+GIdentifiers = GIdentifiers or {}
+GIdentifiers.e_changed = "e_changed"
+GIdentifiers.e_complete = "e_complete"
+GIdentifiers.e_root_changed = "e_root_changed"
+GIdentifiers.e_add = "e_add"
+GIdentifiers.e_added = "e_added"
+GIdentifiers.e_remove = "e_remove"
+GIdentifiers.e_removed = "e_removed"
+GIdentifiers.e_enter = "e_enter"
+GIdentifiers.e_exit = "e_exit"
+GIdentifiers.e_down = "e_down"
+GIdentifiers.e_up = "e_up"
+GIdentifiers.e_click = "e_click"
+GIdentifiers.e_drag_begin = "e_drag_begin"
+GIdentifiers.e_drag_move = "e_drag_move"
+GIdentifiers.e_drag_end = "e_drag_end"
+GIdentifiers.e_particle_complete = "e_particle_complete"
+GIdentifiers.ni_load = "ni_load"
+GIdentifiers.ni_load_stop = "ni_load_stop"
+GIdentifiers.load_type_binary = "binary"
+GIdentifiers.load_type_string = "string"
+GIdentifiers.load_type_texture = "texture"
+GIdentifiers.load_type_sprite = "sprite"
+GIdentifiers.load_type_audioclip = "audioclip"
+GIdentifiers.load_type_assetbundle = "assetbundle"
+GIdentifiers.ni_timer_new = "ni_timer_new"
+GIdentifiers.ni_timer_pause = "ni_timer_pause"
+GIdentifiers.ni_timer_resume = "ni_timer_resume"
+GIdentifiers.ni_timer_stop = "ni_timer_stop"
+GIdentifiers.ni_timer_rate = "ni_timer_rate"
+GIdentifiers.ni_tween_new = "ni_tween_new"
+GIdentifiers.ni_tween_stop = "ni_tween_stop"
+GIdentifiers.nb_lauch = "nb_lauch"
+GIdentifiers.nb_initialize = "nb_initialize"
+GIdentifiers.nb_timer = "nb_timer"
+GIdentifiers.nb_pause = "nb_pause"
+GIdentifiers.nb_resume = "nb_resume"
+local JSON = {escape = "\\", comma = ",", colon = ":", null = "null"}
+xx.JSON = JSON
+function JSON.toString(data, toArray, toFunction, __tableList, __keyList)
+    if not xx.isBoolean(toArray) then
+        toArray = true
+    end
+    if not xx.isBoolean(toFunction) then
+        toFunction = false
+    end
+    if not xx.isTable(__tableList) then
+        __tableList = {}
+    end
+    local dataType = type(data)
+    if "function" == dataType then
+        return toFunction and '"Function"' or nil
+    end
+    if "string" == dataType then
+        data = string.gsub(data, "\\", "\\\\")
+        data = string.gsub(data, '"', '\\"')
+        return '"' .. data .. '"'
+    end
+    if "number" == dataType then
+        return tostring(data)
+    end
+    if "boolean" == dataType then
+        return data and "true" or "false"
+    end
+    if "table" == dataType then
+        xx.arrayPush(__tableList, data)
+        local result
+        if toArray and JSON.isArray(data) then
+            result = "["
+            for i = 1, xx.arrayCount(data) do
+                if xx.isTable(v) and xx.arrayContains(__tableList, v) then
+                    print("json loop refs warning : " .. JSON.toString(xx.arrayPush(xx.arraySlice(__keyList), k)))
+                else
+                    local valueString =
+                        JSON.toString(
+                        data[i],
+                        toArray,
+                        toFunction,
+                        xx.arraySlice(__tableList),
+                        __keyList and xx.arrayPush(xx.arraySlice(__keyList), i) or {i}
+                    )
+                    result = result .. (i > 1 and "," or "") .. (valueString or JSON.null)
+                end
+            end
+            result = result .. "]"
+        else
+            result = "{"
+            local index = 0
+            for k, v in pairs(data) do
+                if xx.isTable(v) and xx.arrayContains(__tableList, v) then
+                    print("json loop refs warning : " .. JSON.toString(xx.arrayPush(xx.arraySlice(__keyList), k)))
+                else
+                    local valueString =
+                        JSON.toString(
+                        v,
+                        toArray,
+                        toFunction,
+                        xx.arraySlice(__tableList),
+                        __keyList and xx.arrayPush(xx.arraySlice(__keyList), k) or {k}
+                    )
+                    if valueString then
+                        result = result .. (index > 0 and "," or "") .. ('"' .. k .. '":') .. valueString
+                        index = index + 1
+                    end
+                end
+            end
+            result = result .. "}"
+        end
+        return result
+    end
+end
+JSON.isArray = function(target)
+    if xx.isTable(target) then
+        for k, v in pairs(target) do
+            if xx.isString(k) then
+                return false
+            end
+        end
+        return true
+    end
+    return false
+end
+JSON.toJSON = function(text)
+    if '"' == string.sub(text, 1, 1) and '"' == string.sub(text, -1, -1) then
+        return string.sub(JSON.findMeta(text), 2, -2)
+    end
+    local lowerText = string.lower(text)
+    if "false" == lowerText then
+        return false
+    elseif "true" == lowerText then
+        return true
+    end
+    if JSON.null == lowerText then
+        return
+    end
+    local number = tonumber(text)
+    if number then
+        return number
+    end
+    if "[" == string.sub(text, 1, 1) and "]" == string.sub(text, -1, -1) then
+        local remain = string.gsub(text, "[\r\n]+", "")
+        remain = string.sub(remain, 2, -2)
+        local array, index, value = {}, 1
+        while #remain > 0 do
+            value, remain = JSON.findMeta(remain)
+            if value then
+                value = JSON.toJSON(value)
+                array[index] = value
+                index = index + 1
+            end
+        end
+        return array
+    end
+    if "{" == string.sub(text, 1, 1) and "}" == string.sub(text, -1, -1) then
+        local remain = string.gsub(text, "[\r\n]+", "")
+        remain = string.sub(remain, 2, -2)
+        local key, value
+        local map = {}
+        while #remain > 0 do
+            key, remain = JSON.findMeta(remain)
+            value, remain = JSON.findMeta(remain)
+            if key and #key > 0 and value then
+                key = JSON.toJSON(key)
+                value = JSON.toJSON(value)
+                if key and value then
+                    map[key] = value
+                end
+            end
+        end
+        return map
+    end
+end
+JSON.findMeta = function(text)
+    local stack = {}
+    local index = 1
+    local lastChar = nil
+    while index <= #text do
+        local char = string.sub(text, index, index)
+        if '"' == char then
+            if char == lastChar then
+                xx.arrayPop(stack)
+                lastChar = #stack > 0 and stack[#stack] or nil
+            else
+                xx.arrayPush(stack, char)
+                lastChar = char
+            end
+        elseif '"' ~= lastChar then
+            if "{" == char then
+                xx.arrayPush(stack, "}")
+                lastChar = char
+            elseif "[" == char then
+                xx.arrayPush(stack, "]")
+                lastChar = char
+            elseif "}" == char or "]" == char then
+                assert(char == lastChar, text .. " " .. index .. " not expect " .. char .. "<=>" .. lastChar)
+                xx.arrayPop(stack)
+                lastChar = #stack > 0 and stack[#stack] or nil
+            elseif JSON.comma == char or JSON.colon == char then
+                if not lastChar then
+                    return string.sub(text, 1, index - 1), string.sub(text, index + 1)
+                end
+            end
+        elseif JSON.escape == char then
+            text = string.sub(text, 1, index - 1) .. string.sub(text, index + 1)
+        end
+        index = index + 1
+    end
+    return string.sub(text, 1, index - 1), string.sub(text, index + 1)
+end
+function xx.bezier(percent, ...)
+    local values = {...}
+    local count = xx.arrayCount(values) - 1
+    while count > 0 do
+        for i = 1, count do
+            values[i] = values[i] + (values[i + 1] - values[i]) * percent
+        end
+        count = count - 1
+    end
+    return 0 == count and values[1] or 0
+end
+function xx.getCallback(...)
+    local args = {...}
+    local count = xx.arrayCount(args)
+    if count > 0 then
+        if xx.instanceOf(args[count], xx.Callback) then
+            return args[count]
+        end
+    end
+end
+function xx.getPromise(...)
+    local args = {...}
+    local count = xx.arrayCount(args)
+    if count > 0 then
+        if xx.instanceOf(args[count], xx.Promise) then
+            return args[count]
+        end
+    end
+end
+function xx.getSignal(...)
+    local args = {...}
+    local count = xx.arrayCount(args)
+    if count > 0 then
+        if xx.instanceOf(args[count], xx.Signal) then
+            return args[count]
+        end
+    end
+end
+local __singleton = {}
+function xx.addInstance(instance)
+    if instance and instance.__class and instance.__class.__className then
+        __singleton[instance.__class.__className] = instance
+    end
+    return instance
+end
+function xx.delInstance(name)
+    local instance = __singleton[name]
+    __singleton[name] = nil
+    return instance
+end
+function xx.getInstance(name)
+    if name then
+        if __singleton[name] then
+            return __singleton[name]
+        end
+        local class = xx.Class.getClass(name)
+        if class then
+            local instance = class()
+            __singleton[name] = instance
+            return instance
+        end
+    end
+end
 local Bits
 local Bit = xx.Class("Bit")
 xx.Bit = Bit
@@ -812,278 +1084,6 @@ function Bit.ashift(value, offset, numBits)
     value = Bit.number(Bit.bitsAShift(bits, offset))
     Bit.cache(bits)
     return value
-end
-GIdentifiers = GIdentifiers or {}
-GIdentifiers.e_changed = "e_changed"
-GIdentifiers.e_complete = "e_complete"
-GIdentifiers.e_root_changed = "e_root_changed"
-GIdentifiers.e_add = "e_add"
-GIdentifiers.e_added = "e_added"
-GIdentifiers.e_remove = "e_remove"
-GIdentifiers.e_removed = "e_removed"
-GIdentifiers.e_enter = "e_enter"
-GIdentifiers.e_exit = "e_exit"
-GIdentifiers.e_down = "e_down"
-GIdentifiers.e_up = "e_up"
-GIdentifiers.e_click = "e_click"
-GIdentifiers.e_drag_begin = "e_drag_begin"
-GIdentifiers.e_drag_move = "e_drag_move"
-GIdentifiers.e_drag_end = "e_drag_end"
-GIdentifiers.e_particle_complete = "e_particle_complete"
-GIdentifiers.ni_load = "ni_load"
-GIdentifiers.ni_load_stop = "ni_load_stop"
-GIdentifiers.load_type_binary = "binary"
-GIdentifiers.load_type_string = "string"
-GIdentifiers.load_type_texture = "texture"
-GIdentifiers.load_type_sprite = "sprite"
-GIdentifiers.load_type_audioclip = "audioclip"
-GIdentifiers.load_type_assetbundle = "assetbundle"
-GIdentifiers.ni_timer_new = "ni_timer_new"
-GIdentifiers.ni_timer_pause = "ni_timer_pause"
-GIdentifiers.ni_timer_resume = "ni_timer_resume"
-GIdentifiers.ni_timer_stop = "ni_timer_stop"
-GIdentifiers.ni_timer_rate = "ni_timer_rate"
-GIdentifiers.ni_tween_new = "ni_tween_new"
-GIdentifiers.ni_tween_stop = "ni_tween_stop"
-GIdentifiers.nb_lauch = "nb_lauch"
-GIdentifiers.nb_initialize = "nb_initialize"
-GIdentifiers.nb_timer = "nb_timer"
-GIdentifiers.nb_pause = "nb_pause"
-GIdentifiers.nb_resume = "nb_resume"
-local JSON = {escape = "\\", comma = ",", colon = ":", null = "null"}
-xx.JSON = JSON
-function JSON.toString(data, toArray, toFunction, __tableList, __keyList)
-    if not xx.isBoolean(toArray) then
-        toArray = true
-    end
-    if not xx.isBoolean(toFunction) then
-        toFunction = false
-    end
-    if not xx.isTable(__tableList) then
-        __tableList = {}
-    end
-    local dataType = type(data)
-    if "function" == dataType then
-        return toFunction and '"Function"' or nil
-    end
-    if "string" == dataType then
-        data = string.gsub(data, "\\", "\\\\")
-        data = string.gsub(data, '"', '\\"')
-        return '"' .. data .. '"'
-    end
-    if "number" == dataType then
-        return tostring(data)
-    end
-    if "boolean" == dataType then
-        return data and "true" or "false"
-    end
-    if "table" == dataType then
-        xx.arrayPush(__tableList, data)
-        local result
-        if toArray and JSON.isArray(data) then
-            result = "["
-            for i = 1, xx.arrayCount(data) do
-                if xx.isTable(v) and xx.arrayContains(__tableList, v) then
-                    print("json loop refs warning : " .. JSON.toString(xx.arrayPush(xx.arraySlice(__keyList), k)))
-                else
-                    local valueString =
-                        JSON.toString(
-                        data[i],
-                        toArray,
-                        toFunction,
-                        xx.arraySlice(__tableList),
-                        __keyList and xx.arrayPush(xx.arraySlice(__keyList), i) or {i}
-                    )
-                    result = result .. (i > 1 and "," or "") .. (valueString or JSON.null)
-                end
-            end
-            result = result .. "]"
-        else
-            result = "{"
-            local index = 0
-            for k, v in pairs(data) do
-                if xx.isTable(v) and xx.arrayContains(__tableList, v) then
-                    print("json loop refs warning : " .. JSON.toString(xx.arrayPush(xx.arraySlice(__keyList), k)))
-                else
-                    local valueString =
-                        JSON.toString(
-                        v,
-                        toArray,
-                        toFunction,
-                        xx.arraySlice(__tableList),
-                        __keyList and xx.arrayPush(xx.arraySlice(__keyList), k) or {k}
-                    )
-                    if valueString then
-                        result = result .. (index > 0 and "," or "") .. ('"' .. k .. '":') .. valueString
-                        index = index + 1
-                    end
-                end
-            end
-            result = result .. "}"
-        end
-        return result
-    end
-end
-JSON.isArray = function(target)
-    if xx.isTable(target) then
-        for k, v in pairs(target) do
-            if xx.isString(k) then
-                return false
-            end
-        end
-        return true
-    end
-    return false
-end
-JSON.toJSON = function(text)
-    if '"' == string.sub(text, 1, 1) and '"' == string.sub(text, -1, -1) then
-        return string.sub(JSON.findMeta(text), 2, -2)
-    end
-    local lowerText = string.lower(text)
-    if "false" == lowerText then
-        return false
-    elseif "true" == lowerText then
-        return true
-    end
-    if JSON.null == lowerText then
-        return
-    end
-    local number = tonumber(text)
-    if number then
-        return number
-    end
-    if "[" == string.sub(text, 1, 1) and "]" == string.sub(text, -1, -1) then
-        local remain = string.gsub(text, "[\r\n]+", "")
-        remain = string.sub(remain, 2, -2)
-        local array, index, value = {}, 1
-        while #remain > 0 do
-            value, remain = JSON.findMeta(remain)
-            if value then
-                value = JSON.toJSON(value)
-                array[index] = value
-                index = index + 1
-            end
-        end
-        return array
-    end
-    if "{" == string.sub(text, 1, 1) and "}" == string.sub(text, -1, -1) then
-        local remain = string.gsub(text, "[\r\n]+", "")
-        remain = string.sub(remain, 2, -2)
-        local key, value
-        local map = {}
-        while #remain > 0 do
-            key, remain = JSON.findMeta(remain)
-            value, remain = JSON.findMeta(remain)
-            if key and #key > 0 and value then
-                key = JSON.toJSON(key)
-                value = JSON.toJSON(value)
-                if key and value then
-                    map[key] = value
-                end
-            end
-        end
-        return map
-    end
-end
-JSON.findMeta = function(text)
-    local stack = {}
-    local index = 1
-    local lastChar = nil
-    while index <= #text do
-        local char = string.sub(text, index, index)
-        if '"' == char then
-            if char == lastChar then
-                xx.arrayPop(stack)
-                lastChar = #stack > 0 and stack[#stack] or nil
-            else
-                xx.arrayPush(stack, char)
-                lastChar = char
-            end
-        elseif '"' ~= lastChar then
-            if "{" == char then
-                xx.arrayPush(stack, "}")
-                lastChar = char
-            elseif "[" == char then
-                xx.arrayPush(stack, "]")
-                lastChar = char
-            elseif "}" == char or "]" == char then
-                assert(char == lastChar, text .. " " .. index .. " not expect " .. char .. "<=>" .. lastChar)
-                xx.arrayPop(stack)
-                lastChar = #stack > 0 and stack[#stack] or nil
-            elseif JSON.comma == char or JSON.colon == char then
-                if not lastChar then
-                    return string.sub(text, 1, index - 1), string.sub(text, index + 1)
-                end
-            end
-        elseif JSON.escape == char then
-            text = string.sub(text, 1, index - 1) .. string.sub(text, index + 1)
-        end
-        index = index + 1
-    end
-    return string.sub(text, 1, index - 1), string.sub(text, index + 1)
-end
-function xx.bezier(percent, ...)
-    local values = {...}
-    local count = xx.arrayCount(values) - 1
-    while count > 0 do
-        for i = 1, count do
-            values[i] = values[i] + (values[i + 1] - values[i]) * percent
-        end
-        count = count - 1
-    end
-    return 0 == count and values[1] or 0
-end
-function xx.getCallback(...)
-    local args = {...}
-    local count = xx.arrayCount(args)
-    if count > 0 then
-        if xx.instanceOf(args[count], xx.Callback) then
-            return args[count]
-        end
-    end
-end
-function xx.getPromise(...)
-    local args = {...}
-    local count = xx.arrayCount(args)
-    if count > 0 then
-        if xx.instanceOf(args[count], xx.Promise) then
-            return args[count]
-        end
-    end
-end
-function xx.getSignal(...)
-    local args = {...}
-    local count = xx.arrayCount(args)
-    if count > 0 then
-        if xx.instanceOf(args[count], xx.Signal) then
-            return args[count]
-        end
-    end
-end
-local __singleton = {}
-function xx.addInstance(instance)
-    if instance and instance.__class and instance.__class.__className then
-        __singleton[instance.__class.__className] = instance
-    end
-    return instance
-end
-function xx.delInstance(name)
-    local instance = __singleton[name]
-    __singleton[name] = nil
-    return instance
-end
-function xx.getInstance(name)
-    if name then
-        if __singleton[name] then
-            return __singleton[name]
-        end
-        local class = xx.Class.getClass(name)
-        if class then
-            local instance = class()
-            __singleton[name] = instance
-            return instance
-        end
-    end
 end
 local PBField = xx.Class("PBField")
 function PBField:ctor(name, package, type, id)

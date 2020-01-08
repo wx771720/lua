@@ -34,6 +34,12 @@ gulp.task("outModule", function (done) {
     done();
 });
 
+//需要发布的 Class 相关文件地址列表
+const classURLList = [
+];
+//Promise 发布文件名
+const classReleaseName = "class";
+
 //需要发布的 Promise 相关文件地址列表
 const promiseURLList = [
     "src/Promise.lua",
@@ -42,7 +48,8 @@ const promiseURLList = [
 const promiseReleaseName = "promise";
 
 //需要发布的 Protobuf 相关文件地址列表
-const protobufURLList = [
+const protobufURLList = [,
+    "src/protobuf/Bit.lua",
     "src/protobuf/PBField.lua",
     "src/protobuf/PBMessage.lua",
     "src/protobuf/PBEnum.lua",
@@ -62,6 +69,7 @@ const urlList = [
     "src/common/JSON.lua",
     "src/common/Util.lua",
 
+    "src/protobuf/Bit.lua",
     "src/protobuf/PBField.lua",
     "src/protobuf/PBMessage.lua",
     "src/protobuf/PBEnum.lua",
@@ -113,9 +121,10 @@ const releaseOutPath = "bin-release/";
 gulp.task("release", gulp.series(
     "outGID",
     function (done) {
-        release(promiseReleaseName, releaseOutPath, ...promiseURLList);
-        release(protobufReleaseName, releaseOutPath, ...protobufURLList);
-        release(releaseName, releaseOutPath, ...urlList);
+        release(classReleaseName, releaseOutPath, ...classURLList);//Class
+        release(promiseReleaseName, releaseOutPath, ...promiseURLList);//Promise
+        release(protobufReleaseName, releaseOutPath, ...protobufURLList);//Protobuf
+        release(releaseName, releaseOutPath, ...urlList);//all for unity
         done();
     }
 ));

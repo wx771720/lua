@@ -290,7 +290,7 @@ function Promise.asyncLoop()
     end
 end
 
----异步调用方法(会在方法末尾添加 onresolve, onreject 参数用于结束该异步，如果未调用其中任何一个方法，则在函数结束后结束异步)
+---在新协程中调用指定方法
 ---@type fun(handler:Handler,caller:any,...:any):Promise
 ---@param handler Handler 需要异步调用的函数
 ---@param caller any 需要异步调用的函数所属对象
@@ -302,7 +302,7 @@ function Promise.async(handler, caller, ...)
     return promise
 end
 
----等待异步完成，返回数据最后一个参数为 boolean 值，true 表示 resolved，false 表示 rejected
+---等待异步完成，返回数据最后一个参数为 boolean 值，true 表示 resolved，false 表示 rejected（不能在主线程中调用）
 ---@type fun(promise:Promise):any
 ---@param promise Promise 异步对象
 ---@return any 异步完成返回的数据
@@ -338,7 +338,7 @@ xx.async = Promise.async
 ---@see Promise#await
 xx.await = Promise.await
 
----启动新协程
+---在新协程中调用指定方法
 ---@type fun(handler:function|function[],caller:any,...:any):Promise
 ---@param handler function|function[] 协程函数，或者用表封装的函数（只关心表中第一个元素）
 ---@param caller any 需要异步调用的函数所属对象

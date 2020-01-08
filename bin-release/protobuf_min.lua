@@ -1,4 +1,11 @@
 xx = xx or {}
+xx.version = "1.0.0"
+print("xx(lua) version: " .. xx.version)
+local __uidSeed = 0
+function xx.newUID()
+    __uidSeed = __uidSeed + 1
+    return string.format("xx_lua_%d", __uidSeed)
+end
 function xx.Handler(handler, caller, ...)
     local cache = {...}
     if 0 == xx.arrayCount(cache) then
@@ -233,13 +240,6 @@ end
 coroutine.isyieldable = function()
     local _, isMain = coroutine.running()
     return not isMain
-end
-xx.version = "1.0.0"
-print("xx(lua) version: " .. xx.version)
-local __uidSeed = 0
-function xx.newUID()
-    __uidSeed = __uidSeed + 1
-    return string.format("xx_lua_%d", __uidSeed)
 end
 local Class = {__nameClassMap = {}}
 xx.Class = Class

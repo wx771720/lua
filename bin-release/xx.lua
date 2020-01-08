@@ -3,6 +3,21 @@
 ---@field CSEvent CSEvent
 ---@field Util Util
 xx = xx or {}
+---版本号
+---@type string
+xx.version = "1.0.0"
+---打印版本号
+print("xx(lua) version: " .. xx.version)
+---id 种子
+---@type number
+local __uidSeed = 0
+---获取一个新的 id
+---@type fun():string
+---@return string 返回新的 id
+function xx.newUID()
+    __uidSeed = __uidSeed + 1
+    return string.format("xx_lua_%d", __uidSeed)
+end
 ---@alias Handler fun(...:any[]):any
 ---用于封装的 self Handler 回调
 ---@type fun(handler:Handler,caller:any|nil,...:any):Handler
@@ -383,21 +398,6 @@ coroutine.isyieldable = function()
     local _, isMain = coroutine.running()
     return not isMain
 end
----版本号
----@type string
-xx.version = "1.0.0"
----打印版本号
-print("xx(lua) version: " .. xx.version)
----id 种子
----@type number
-local __uidSeed = 0
----获取一个新的 id
----@type fun():string
----@return string 返回新的 id
-function xx.newUID()
-    __uidSeed = __uidSeed + 1
-    return string.format("xx_lua_%d", __uidSeed)
-end
 ---自定义类
 ---@class SubClass
 ---@field __className 类名
@@ -622,6 +622,432 @@ setmetatable(
         end
     }
 )
+---GID 类（由工具自动生成，请勿手动修改）
+---@class GIdentifiers author wx771720[outlook.com]
+GIdentifiers = GIdentifiers or {}
+---已改变事件
+---@param name string 改变的属性、字段等名字
+---@param newValue any 改变后的值
+---@param oldValue any 改变前的值
+GIdentifiers.e_changed = "e_changed"
+---完成事件
+---@param ... any[] 携带的数据
+GIdentifiers.e_complete = "e_complete"
+---根节点改变事件
+---@param oldRoot Node 之前的根节点
+GIdentifiers.e_root_changed = "e_root_changed"
+---将要添加到父节点事件
+---@param child Node 添加的子节点
+GIdentifiers.e_add = "e_add"
+---已添加子节点事件
+---@param child Node 添加的子节点
+GIdentifiers.e_added = "e_added"
+---将要移除子节点事件
+---@param child Node 移除的子节点
+GIdentifiers.e_remove = "e_remove"
+---已移除子节点事件
+---@param child Node 移除的子节点
+GIdentifiers.e_removed = "e_removed"
+---指针移入事件
+---@param screenX float 屏幕 x 坐标
+---@param screenY float 屏幕 y 坐标
+---@param screenY PointerEventData 事件原始对象
+GIdentifiers.e_enter = "e_enter"
+---指针移出事件
+---@param screenX float 屏幕 x 坐标
+---@param screenY float 屏幕 y 坐标
+---@param screenY PointerEventData 事件原始对象
+GIdentifiers.e_exit = "e_exit"
+---指针按下事件
+---@param screenX float 屏幕 x 坐标
+---@param screenY float 屏幕 y 坐标
+---@param screenY PointerEventData 事件原始对象
+GIdentifiers.e_down = "e_down"
+---指针释放事件
+---@param screenX float 屏幕 x 坐标
+---@param screenY float 屏幕 y 坐标
+---@param screenY PointerEventData 事件原始对象
+GIdentifiers.e_up = "e_up"
+---指针点击事件
+---@param screenX float 屏幕 x 坐标
+---@param screenY float 屏幕 y 坐标
+---@param screenY PointerEventData 事件原始对象
+GIdentifiers.e_click = "e_click"
+---指针开始拖拽事件
+---@param screenX float 屏幕 x 坐标
+---@param screenY float 屏幕 y 坐标
+---@param screenY PointerEventData 事件原始对象
+GIdentifiers.e_drag_begin = "e_drag_begin"
+---指针拖拽移动事件
+---@param screenX float 屏幕 x 坐标
+---@param screenY float 屏幕 y 坐标
+---@param screenY PointerEventData 事件原始对象
+GIdentifiers.e_drag_move = "e_drag_move"
+---指针拖拽结束事件
+---@param screenX float 屏幕 x 坐标
+---@param screenY float 屏幕 y 坐标
+---@param screenY PointerEventData 事件原始对象
+GIdentifiers.e_drag_end = "e_drag_end"
+---<summary>
+---粒子结束时事件
+---</summary>
+GIdentifiers.e_particle_complete = "e_particle_complete"
+---<summary>
+---按 url 资源名字类型加载资源（字符串、字节数组）
+---</summary>
+---<para name="url">string 资源地址</para>
+---<para name="type">string 资源类型，null 表示按 url 类型加载</para>
+---<para name="tryCount">int 加载超时后的重试次数，小于 0 表示无限次数，等于 0 表示不重试</para>
+---<para name="tryDelay">int 加载超时后重试间隔时长（单位：毫秒）</para>
+---<para name="timeout">int 加载超时时长（单位：毫秒）</para>
+---<para name="onRetry">Callback 重试时回调</para>
+---<para name="onComplete">Callback 加载完成后回调，参数：string|byte[]|null</para>
+---<returns>string 加载 id</returns>
+GIdentifiers.ni_load = "ni_load"
+---<summary>
+---停止加载
+---</summary>
+---<para name="id">string 加载 id</para>
+GIdentifiers.ni_load_stop = "ni_load_stop"
+---加载类型：二进制
+GIdentifiers.load_type_binary = "binary"
+---加载类型：字符串
+GIdentifiers.load_type_string = "string"
+---加载类型：Texture
+GIdentifiers.load_type_texture = "texture"
+---加载类型：Sprite
+GIdentifiers.load_type_sprite = "sprite"
+---加载类型：AudioClip
+GIdentifiers.load_type_audioclip = "audioclip"
+---加载类型：AssetBundle
+GIdentifiers.load_type_assetbundle = "assetbundle"
+---新建定时器
+---@param duration number 回调执行间隔（单位：毫秒）
+---@param count number 小于等于 0 表示无限次数
+---@param onOnce Callback 指定间隔后执行回调，参数：number（实际经过的时长，单位：毫秒），number（当前是第几次执行）
+---@param onComplete Callbac 指定次数执行完成后回调
+---@return string 定时器 id
+GIdentifiers.ni_timer_new = "ni_timer_new"
+---暂停定时器
+---@param id string 新建定时器时返回的 id
+GIdentifiers.ni_timer_pause = "ni_timer_pause"
+---继续定时器
+---@param id string 新建定时器时返回的 id
+GIdentifiers.ni_timer_resume = "ni_timer_resume"
+---停止定时器
+---@param id string 新建定时器时返回的 id
+---@param trigger boolean 是否触发完成回调，默认 false
+GIdentifiers.ni_timer_stop = "ni_timer_stop"
+---修改定时器速率
+---@param id string 新建定时器时返回的 id
+---@param rate number 定时器速率，默认 1 表示恢复正常速率
+GIdentifiers.ni_timer_rate = "ni_timer_rate"
+------创建缓动器
+------@param targets ... 缓动目标列表
+------@return Tween
+GIdentifiers.ni_tween_new = "ni_tween_new"
+------停止缓动对象
+------@param target any 缓动目标
+------@param trigger bool 是否在停止时触发回调，默认 false
+------@param toEnd bool 是否在停止时设置属性为结束值，默认 false
+GIdentifiers.ni_tween_stop = "ni_tween_stop"
+---启动通知
+GIdentifiers.nb_lauch = "nb_lauch"
+---初始化通知
+GIdentifiers.nb_initialize = "nb_initialize"
+---定时通知
+---@param interval double 一帧耗时（单位：毫秒）
+GIdentifiers.nb_timer = "nb_timer"
+---暂时通知
+GIdentifiers.nb_pause = "nb_pause"
+---继续通知
+GIdentifiers.nb_resume = "nb_resume"
+---json 转换工具（TODO 引用符号：重复引用，循环引用）
+---@class JSON by wx771720@outlook.com 2019-08-07 16:03:34
+local JSON = {escape = "\\", comma = ",", colon = ":", null = "null"}
+---@see JSON
+xx.JSON = JSON
+---将任意非 nil 数据转换成 json 字符串
+---@type fun(data:any,toArray:boolean,toFunction:boolean):string
+---@param data any 任意非 nil 数据
+---@param toArray boolean 如果是数组，是否按数组格式输出，默认 true
+---@param toFunction boolean 是否输出函数，默认 false
+---@return string 返回 json 格式的字符串
+function JSON.toString(data, toArray, toFunction, __tableList, __keyList)
+    if not xx.isBoolean(toArray) then
+        toArray = true
+    end
+    if not xx.isBoolean(toFunction) then
+        toFunction = false
+    end
+    if not xx.isTable(__tableList) then
+        __tableList = {}
+    end
+    local dataType = type(data)
+    if "function" == dataType then
+        return toFunction and '"Function"' or nil
+    end
+    if "string" == dataType then
+        data = string.gsub(data, "\\", "\\\\")
+        data = string.gsub(data, '"', '\\"')
+        return '"' .. data .. '"'
+    end
+    if "number" == dataType then
+        return tostring(data)
+    end
+    if "boolean" == dataType then
+        return data and "true" or "false"
+    end
+    if "table" == dataType then
+        xx.arrayPush(__tableList, data)
+        local result
+        if toArray and JSON.isArray(data) then
+            result = "["
+            for i = 1, xx.arrayCount(data) do
+                if xx.isTable(v) and xx.arrayContains(__tableList, v) then
+                    print("json loop refs warning : " .. JSON.toString(xx.arrayPush(xx.arraySlice(__keyList), k)))
+                else
+                    local valueString =
+                        JSON.toString(
+                        data[i],
+                        toArray,
+                        toFunction,
+                        xx.arraySlice(__tableList),
+                        __keyList and xx.arrayPush(xx.arraySlice(__keyList), i) or {i}
+                    )
+                    result = result .. (i > 1 and "," or "") .. (valueString or JSON.null)
+                end
+            end
+            result = result .. "]"
+        else
+            result = "{"
+            local index = 0
+            for k, v in pairs(data) do
+                if xx.isTable(v) and xx.arrayContains(__tableList, v) then
+                    print("json loop refs warning : " .. JSON.toString(xx.arrayPush(xx.arraySlice(__keyList), k)))
+                else
+                    local valueString =
+                        JSON.toString(
+                        v,
+                        toArray,
+                        toFunction,
+                        xx.arraySlice(__tableList),
+                        __keyList and xx.arrayPush(xx.arraySlice(__keyList), k) or {k}
+                    )
+                    if valueString then
+                        result = result .. (index > 0 and "," or "") .. ('"' .. k .. '":') .. valueString
+                        index = index + 1
+                    end
+                end
+            end
+            result = result .. "}"
+        end
+        return result
+    end
+end
+---判断指定表是否是数组（不包含字符串索引的表）
+---@type fun(target:any):boolean
+---@param target any 表
+---@return boolean 如果不包含字符串索引则返回 true，否则返回 false
+JSON.isArray = function(target)
+    if xx.isTable(target) then
+        for k, v in pairs(target) do
+            if xx.isString(k) then
+                return false
+            end
+        end
+        return true
+    end
+    return false
+end
+---将字符串转换成 table 对象
+---@type fun(text:string):any
+---@param text string json 格式的字符串
+---@return any|nil 如果解析成功返回对应数据，否则返回 nil
+JSON.toJSON = function(text)
+    if '"' == string.sub(text, 1, 1) and '"' == string.sub(text, -1, -1) then
+        return string.sub(JSON.findMeta(text), 2, -2)
+    end
+    local lowerText = string.lower(text)
+    if "false" == lowerText then
+        return false
+    elseif "true" == lowerText then
+        return true
+    end
+    if JSON.null == lowerText then
+        return
+    end
+    local number = tonumber(text)
+    if number then
+        return number
+    end
+    if "[" == string.sub(text, 1, 1) and "]" == string.sub(text, -1, -1) then
+        local remain = string.gsub(text, "[\r\n]+", "")
+        remain = string.sub(remain, 2, -2)
+        local array, index, value = {}, 1
+        while #remain > 0 do
+            value, remain = JSON.findMeta(remain)
+            if value then
+                value = JSON.toJSON(value)
+                array[index] = value
+                index = index + 1
+            end
+        end
+        return array
+    end
+    if "{" == string.sub(text, 1, 1) and "}" == string.sub(text, -1, -1) then
+        local remain = string.gsub(text, "[\r\n]+", "")
+        remain = string.sub(remain, 2, -2)
+        local key, value
+        local map = {}
+        while #remain > 0 do
+            key, remain = JSON.findMeta(remain)
+            value, remain = JSON.findMeta(remain)
+            if key and #key > 0 and value then
+                key = JSON.toJSON(key)
+                value = JSON.toJSON(value)
+                if key and value then
+                    map[key] = value
+                end
+            end
+        end
+        return map
+    end
+end
+---查找字符串中的 json 元数据
+---@type fun(text:string):string, string
+---@param text string json 格式的字符串
+---@return string,string 元数据,剩余字符串
+JSON.findMeta = function(text)
+    local stack = {}
+    local index = 1
+    local lastChar = nil
+    while index <= #text do
+        local char = string.sub(text, index, index)
+        if '"' == char then
+            if char == lastChar then
+                xx.arrayPop(stack)
+                lastChar = #stack > 0 and stack[#stack] or nil
+            else
+                xx.arrayPush(stack, char)
+                lastChar = char
+            end
+        elseif '"' ~= lastChar then
+            if "{" == char then
+                xx.arrayPush(stack, "}")
+                lastChar = char
+            elseif "[" == char then
+                xx.arrayPush(stack, "]")
+                lastChar = char
+            elseif "}" == char or "]" == char then
+                assert(char == lastChar, text .. " " .. index .. " not expect " .. char .. "<=>" .. lastChar)
+                xx.arrayPop(stack)
+                lastChar = #stack > 0 and stack[#stack] or nil
+            elseif JSON.comma == char or JSON.colon == char then
+                if not lastChar then
+                    return string.sub(text, 1, index - 1), string.sub(text, index + 1)
+                end
+            end
+        elseif JSON.escape == char then
+            text = string.sub(text, 1, index - 1) .. string.sub(text, index + 1)
+        end
+        index = index + 1
+    end
+    return string.sub(text, 1, index - 1), string.sub(text, index + 1)
+end
+---计算指定的贝塞尔值
+---@type fun(percent:number,...:number):number
+---@param percent number 百分比
+---@vararg number
+---@return number 返回贝塞尔对应值
+function xx.bezier(percent, ...)
+    local values = {...}
+    local count = xx.arrayCount(values) - 1
+    while count > 0 do
+        for i = 1, count do
+            values[i] = values[i] + (values[i + 1] - values[i]) * percent
+        end
+        count = count - 1
+    end
+    return 0 == count and values[1] or 0
+end
+---从参数列表中获取回调参数
+---@type fun(...:any):Callback
+---@vararg any
+---@return Callback|nil 如果找到则返回 Callback 对象，否则返回 nil
+function xx.getCallback(...)
+    local args = {...}
+    local count = xx.arrayCount(args)
+    if count > 0 then
+        if xx.instanceOf(args[count], xx.Callback) then
+            return args[count]
+        end
+    end
+end
+----从参数列表中获取异步对象参数
+---@type fun(...:any):Promise
+---@vararg any
+---@return Promise 如果找到则返回 Promise 对象，否则返回 nil
+function xx.getPromise(...)
+    local args = {...}
+    local count = xx.arrayCount(args)
+    if count > 0 then
+        if xx.instanceOf(args[count], xx.Promise) then
+            return args[count]
+        end
+    end
+end
+---从参数列表中获取信号参数
+---@type fun(...:any):Signal
+---@vararg any
+---@return Signal|nil 如果找到则返回 Signal 对象，否则返回 nil
+function xx.getSignal(...)
+    local args = {...}
+    local count = xx.arrayCount(args)
+    if count > 0 then
+        if xx.instanceOf(args[count], xx.Signal) then
+            return args[count]
+        end
+    end
+end
+---@type table<string, any> 类名 - 实例
+local __singleton = {}
+---添加一个类的实例作为其单例使用
+---@type fun(instance:any):any
+---@param instance any 对象
+---@return any instance
+function xx.addInstance(instance)
+    if instance and instance.__class and instance.__class.__className then
+        __singleton[instance.__class.__className] = instance
+    end
+    return instance
+end
+---移除一个类的单例实例
+---@type fun(name:string):any
+---@param name string 类名
+---@return any 如果存在指定实例则返回，否则返回 nil
+function xx.delInstance(name)
+    local instance = __singleton[name]
+    __singleton[name] = nil
+    return instance
+end
+---获取一个类的单例实例
+---@type fun(name:string):any
+---@param name string 类名
+---@return any 如果存在指定类名则返回对应单例对象，否则返回 nil
+function xx.getInstance(name)
+    if name then
+        if __singleton[name] then
+            return __singleton[name]
+        end
+        local class = xx.Class.getClass(name)
+        if class then
+            local instance = class()
+            __singleton[name] = instance
+            return instance
+        end
+    end
+end
 ---位数组
 ---@class Bits
 ---@field numBits number 位数
@@ -1188,432 +1614,6 @@ function Bit.ashift(value, offset, numBits)
     value = Bit.number(Bit.bitsAShift(bits, offset))
     Bit.cache(bits)
     return value
-end
----GID 类（由工具自动生成，请勿手动修改）
----@class GIdentifiers author wx771720[outlook.com]
-GIdentifiers = GIdentifiers or {}
----已改变事件
----@param name string 改变的属性、字段等名字
----@param newValue any 改变后的值
----@param oldValue any 改变前的值
-GIdentifiers.e_changed = "e_changed"
----完成事件
----@param ... any[] 携带的数据
-GIdentifiers.e_complete = "e_complete"
----根节点改变事件
----@param oldRoot Node 之前的根节点
-GIdentifiers.e_root_changed = "e_root_changed"
----将要添加到父节点事件
----@param child Node 添加的子节点
-GIdentifiers.e_add = "e_add"
----已添加子节点事件
----@param child Node 添加的子节点
-GIdentifiers.e_added = "e_added"
----将要移除子节点事件
----@param child Node 移除的子节点
-GIdentifiers.e_remove = "e_remove"
----已移除子节点事件
----@param child Node 移除的子节点
-GIdentifiers.e_removed = "e_removed"
----指针移入事件
----@param screenX float 屏幕 x 坐标
----@param screenY float 屏幕 y 坐标
----@param screenY PointerEventData 事件原始对象
-GIdentifiers.e_enter = "e_enter"
----指针移出事件
----@param screenX float 屏幕 x 坐标
----@param screenY float 屏幕 y 坐标
----@param screenY PointerEventData 事件原始对象
-GIdentifiers.e_exit = "e_exit"
----指针按下事件
----@param screenX float 屏幕 x 坐标
----@param screenY float 屏幕 y 坐标
----@param screenY PointerEventData 事件原始对象
-GIdentifiers.e_down = "e_down"
----指针释放事件
----@param screenX float 屏幕 x 坐标
----@param screenY float 屏幕 y 坐标
----@param screenY PointerEventData 事件原始对象
-GIdentifiers.e_up = "e_up"
----指针点击事件
----@param screenX float 屏幕 x 坐标
----@param screenY float 屏幕 y 坐标
----@param screenY PointerEventData 事件原始对象
-GIdentifiers.e_click = "e_click"
----指针开始拖拽事件
----@param screenX float 屏幕 x 坐标
----@param screenY float 屏幕 y 坐标
----@param screenY PointerEventData 事件原始对象
-GIdentifiers.e_drag_begin = "e_drag_begin"
----指针拖拽移动事件
----@param screenX float 屏幕 x 坐标
----@param screenY float 屏幕 y 坐标
----@param screenY PointerEventData 事件原始对象
-GIdentifiers.e_drag_move = "e_drag_move"
----指针拖拽结束事件
----@param screenX float 屏幕 x 坐标
----@param screenY float 屏幕 y 坐标
----@param screenY PointerEventData 事件原始对象
-GIdentifiers.e_drag_end = "e_drag_end"
----<summary>
----粒子结束时事件
----</summary>
-GIdentifiers.e_particle_complete = "e_particle_complete"
----<summary>
----按 url 资源名字类型加载资源（字符串、字节数组）
----</summary>
----<para name="url">string 资源地址</para>
----<para name="type">string 资源类型，null 表示按 url 类型加载</para>
----<para name="tryCount">int 加载超时后的重试次数，小于 0 表示无限次数，等于 0 表示不重试</para>
----<para name="tryDelay">int 加载超时后重试间隔时长（单位：毫秒）</para>
----<para name="timeout">int 加载超时时长（单位：毫秒）</para>
----<para name="onRetry">Callback 重试时回调</para>
----<para name="onComplete">Callback 加载完成后回调，参数：string|byte[]|null</para>
----<returns>string 加载 id</returns>
-GIdentifiers.ni_load = "ni_load"
----<summary>
----停止加载
----</summary>
----<para name="id">string 加载 id</para>
-GIdentifiers.ni_load_stop = "ni_load_stop"
----加载类型：二进制
-GIdentifiers.load_type_binary = "binary"
----加载类型：字符串
-GIdentifiers.load_type_string = "string"
----加载类型：Texture
-GIdentifiers.load_type_texture = "texture"
----加载类型：Sprite
-GIdentifiers.load_type_sprite = "sprite"
----加载类型：AudioClip
-GIdentifiers.load_type_audioclip = "audioclip"
----加载类型：AssetBundle
-GIdentifiers.load_type_assetbundle = "assetbundle"
----新建定时器
----@param duration number 回调执行间隔（单位：毫秒）
----@param count number 小于等于 0 表示无限次数
----@param onOnce Callback 指定间隔后执行回调，参数：number（实际经过的时长，单位：毫秒），number（当前是第几次执行）
----@param onComplete Callbac 指定次数执行完成后回调
----@return string 定时器 id
-GIdentifiers.ni_timer_new = "ni_timer_new"
----暂停定时器
----@param id string 新建定时器时返回的 id
-GIdentifiers.ni_timer_pause = "ni_timer_pause"
----继续定时器
----@param id string 新建定时器时返回的 id
-GIdentifiers.ni_timer_resume = "ni_timer_resume"
----停止定时器
----@param id string 新建定时器时返回的 id
----@param trigger boolean 是否触发完成回调，默认 false
-GIdentifiers.ni_timer_stop = "ni_timer_stop"
----修改定时器速率
----@param id string 新建定时器时返回的 id
----@param rate number 定时器速率，默认 1 表示恢复正常速率
-GIdentifiers.ni_timer_rate = "ni_timer_rate"
-------创建缓动器
-------@param targets ... 缓动目标列表
-------@return Tween
-GIdentifiers.ni_tween_new = "ni_tween_new"
-------停止缓动对象
-------@param target any 缓动目标
-------@param trigger bool 是否在停止时触发回调，默认 false
-------@param toEnd bool 是否在停止时设置属性为结束值，默认 false
-GIdentifiers.ni_tween_stop = "ni_tween_stop"
----启动通知
-GIdentifiers.nb_lauch = "nb_lauch"
----初始化通知
-GIdentifiers.nb_initialize = "nb_initialize"
----定时通知
----@param interval double 一帧耗时（单位：毫秒）
-GIdentifiers.nb_timer = "nb_timer"
----暂时通知
-GIdentifiers.nb_pause = "nb_pause"
----继续通知
-GIdentifiers.nb_resume = "nb_resume"
----json 转换工具（TODO 引用符号：重复引用，循环引用）
----@class JSON by wx771720@outlook.com 2019-08-07 16:03:34
-local JSON = {escape = "\\", comma = ",", colon = ":", null = "null"}
----@see JSON
-xx.JSON = JSON
----将任意非 nil 数据转换成 json 字符串
----@type fun(data:any,toArray:boolean,toFunction:boolean):string
----@param data any 任意非 nil 数据
----@param toArray boolean 如果是数组，是否按数组格式输出，默认 true
----@param toFunction boolean 是否输出函数，默认 false
----@return string 返回 json 格式的字符串
-function JSON.toString(data, toArray, toFunction, __tableList, __keyList)
-    if not xx.isBoolean(toArray) then
-        toArray = true
-    end
-    if not xx.isBoolean(toFunction) then
-        toFunction = false
-    end
-    if not xx.isTable(__tableList) then
-        __tableList = {}
-    end
-    local dataType = type(data)
-    if "function" == dataType then
-        return toFunction and '"Function"' or nil
-    end
-    if "string" == dataType then
-        data = string.gsub(data, "\\", "\\\\")
-        data = string.gsub(data, '"', '\\"')
-        return '"' .. data .. '"'
-    end
-    if "number" == dataType then
-        return tostring(data)
-    end
-    if "boolean" == dataType then
-        return data and "true" or "false"
-    end
-    if "table" == dataType then
-        xx.arrayPush(__tableList, data)
-        local result
-        if toArray and JSON.isArray(data) then
-            result = "["
-            for i = 1, xx.arrayCount(data) do
-                if xx.isTable(v) and xx.arrayContains(__tableList, v) then
-                    print("json loop refs warning : " .. JSON.toString(xx.arrayPush(xx.arraySlice(__keyList), k)))
-                else
-                    local valueString =
-                        JSON.toString(
-                        data[i],
-                        toArray,
-                        toFunction,
-                        xx.arraySlice(__tableList),
-                        __keyList and xx.arrayPush(xx.arraySlice(__keyList), i) or {i}
-                    )
-                    result = result .. (i > 1 and "," or "") .. (valueString or JSON.null)
-                end
-            end
-            result = result .. "]"
-        else
-            result = "{"
-            local index = 0
-            for k, v in pairs(data) do
-                if xx.isTable(v) and xx.arrayContains(__tableList, v) then
-                    print("json loop refs warning : " .. JSON.toString(xx.arrayPush(xx.arraySlice(__keyList), k)))
-                else
-                    local valueString =
-                        JSON.toString(
-                        v,
-                        toArray,
-                        toFunction,
-                        xx.arraySlice(__tableList),
-                        __keyList and xx.arrayPush(xx.arraySlice(__keyList), k) or {k}
-                    )
-                    if valueString then
-                        result = result .. (index > 0 and "," or "") .. ('"' .. k .. '":') .. valueString
-                        index = index + 1
-                    end
-                end
-            end
-            result = result .. "}"
-        end
-        return result
-    end
-end
----判断指定表是否是数组（不包含字符串索引的表）
----@type fun(target:any):boolean
----@param target any 表
----@return boolean 如果不包含字符串索引则返回 true，否则返回 false
-JSON.isArray = function(target)
-    if xx.isTable(target) then
-        for k, v in pairs(target) do
-            if xx.isString(k) then
-                return false
-            end
-        end
-        return true
-    end
-    return false
-end
----将字符串转换成 table 对象
----@type fun(text:string):any
----@param text string json 格式的字符串
----@return any|nil 如果解析成功返回对应数据，否则返回 nil
-JSON.toJSON = function(text)
-    if '"' == string.sub(text, 1, 1) and '"' == string.sub(text, -1, -1) then
-        return string.sub(JSON.findMeta(text), 2, -2)
-    end
-    local lowerText = string.lower(text)
-    if "false" == lowerText then
-        return false
-    elseif "true" == lowerText then
-        return true
-    end
-    if JSON.null == lowerText then
-        return
-    end
-    local number = tonumber(text)
-    if number then
-        return number
-    end
-    if "[" == string.sub(text, 1, 1) and "]" == string.sub(text, -1, -1) then
-        local remain = string.gsub(text, "[\r\n]+", "")
-        remain = string.sub(remain, 2, -2)
-        local array, index, value = {}, 1
-        while #remain > 0 do
-            value, remain = JSON.findMeta(remain)
-            if value then
-                value = JSON.toJSON(value)
-                array[index] = value
-                index = index + 1
-            end
-        end
-        return array
-    end
-    if "{" == string.sub(text, 1, 1) and "}" == string.sub(text, -1, -1) then
-        local remain = string.gsub(text, "[\r\n]+", "")
-        remain = string.sub(remain, 2, -2)
-        local key, value
-        local map = {}
-        while #remain > 0 do
-            key, remain = JSON.findMeta(remain)
-            value, remain = JSON.findMeta(remain)
-            if key and #key > 0 and value then
-                key = JSON.toJSON(key)
-                value = JSON.toJSON(value)
-                if key and value then
-                    map[key] = value
-                end
-            end
-        end
-        return map
-    end
-end
----查找字符串中的 json 元数据
----@type fun(text:string):string, string
----@param text string json 格式的字符串
----@return string,string 元数据,剩余字符串
-JSON.findMeta = function(text)
-    local stack = {}
-    local index = 1
-    local lastChar = nil
-    while index <= #text do
-        local char = string.sub(text, index, index)
-        if '"' == char then
-            if char == lastChar then
-                xx.arrayPop(stack)
-                lastChar = #stack > 0 and stack[#stack] or nil
-            else
-                xx.arrayPush(stack, char)
-                lastChar = char
-            end
-        elseif '"' ~= lastChar then
-            if "{" == char then
-                xx.arrayPush(stack, "}")
-                lastChar = char
-            elseif "[" == char then
-                xx.arrayPush(stack, "]")
-                lastChar = char
-            elseif "}" == char or "]" == char then
-                assert(char == lastChar, text .. " " .. index .. " not expect " .. char .. "<=>" .. lastChar)
-                xx.arrayPop(stack)
-                lastChar = #stack > 0 and stack[#stack] or nil
-            elseif JSON.comma == char or JSON.colon == char then
-                if not lastChar then
-                    return string.sub(text, 1, index - 1), string.sub(text, index + 1)
-                end
-            end
-        elseif JSON.escape == char then
-            text = string.sub(text, 1, index - 1) .. string.sub(text, index + 1)
-        end
-        index = index + 1
-    end
-    return string.sub(text, 1, index - 1), string.sub(text, index + 1)
-end
----计算指定的贝塞尔值
----@type fun(percent:number,...:number):number
----@param percent number 百分比
----@vararg number
----@return number 返回贝塞尔对应值
-function xx.bezier(percent, ...)
-    local values = {...}
-    local count = xx.arrayCount(values) - 1
-    while count > 0 do
-        for i = 1, count do
-            values[i] = values[i] + (values[i + 1] - values[i]) * percent
-        end
-        count = count - 1
-    end
-    return 0 == count and values[1] or 0
-end
----从参数列表中获取回调参数
----@type fun(...:any):Callback
----@vararg any
----@return Callback|nil 如果找到则返回 Callback 对象，否则返回 nil
-function xx.getCallback(...)
-    local args = {...}
-    local count = xx.arrayCount(args)
-    if count > 0 then
-        if xx.instanceOf(args[count], xx.Callback) then
-            return args[count]
-        end
-    end
-end
-----从参数列表中获取异步对象参数
----@type fun(...:any):Promise
----@vararg any
----@return Promise 如果找到则返回 Promise 对象，否则返回 nil
-function xx.getPromise(...)
-    local args = {...}
-    local count = xx.arrayCount(args)
-    if count > 0 then
-        if xx.instanceOf(args[count], xx.Promise) then
-            return args[count]
-        end
-    end
-end
----从参数列表中获取信号参数
----@type fun(...:any):Signal
----@vararg any
----@return Signal|nil 如果找到则返回 Signal 对象，否则返回 nil
-function xx.getSignal(...)
-    local args = {...}
-    local count = xx.arrayCount(args)
-    if count > 0 then
-        if xx.instanceOf(args[count], xx.Signal) then
-            return args[count]
-        end
-    end
-end
----@type table<string, any> 类名 - 实例
-local __singleton = {}
----添加一个类的实例作为其单例使用
----@type fun(instance:any):any
----@param instance any 对象
----@return any instance
-function xx.addInstance(instance)
-    if instance and instance.__class and instance.__class.__className then
-        __singleton[instance.__class.__className] = instance
-    end
-    return instance
-end
----移除一个类的单例实例
----@type fun(name:string):any
----@param name string 类名
----@return any 如果存在指定实例则返回，否则返回 nil
-function xx.delInstance(name)
-    local instance = __singleton[name]
-    __singleton[name] = nil
-    return instance
-end
----获取一个类的单例实例
----@type fun(name:string):any
----@param name string 类名
----@return any 如果存在指定类名则返回对应单例对象，否则返回 nil
-function xx.getInstance(name)
-    if name then
-        if __singleton[name] then
-            return __singleton[name]
-        end
-        local class = xx.Class.getClass(name)
-        if class then
-            local instance = class()
-            __singleton[name] = instance
-            return instance
-        end
-    end
 end
 ---Protobuf 字段信息
 ---@class PBField:ObjectEx by wx771720@outlook.com 2019-12-31 10:51:14
@@ -2967,7 +2967,7 @@ function Promise.asyncLoop()
         end
     end
 end
----异步调用方法(会在方法末尾添加 onresolve, onreject 参数用于结束该异步，如果未调用其中任何一个方法，则在函数结束后结束异步)
+---在新协程中调用指定方法
 ---@type fun(handler:Handler,caller:any,...:any):Promise
 ---@param handler Handler 需要异步调用的函数
 ---@param caller any 需要异步调用的函数所属对象
@@ -2978,7 +2978,7 @@ function Promise.async(handler, caller, ...)
     Promise.promiseAsyncMap[promise] = xx.Handler(handler, caller, ...)
     return promise
 end
----等待异步完成，返回数据最后一个参数为 boolean 值，true 表示 resolved，false 表示 rejected
+---等待异步完成，返回数据最后一个参数为 boolean 值，true 表示 resolved，false 表示 rejected（不能在主线程中调用）
 ---@type fun(promise:Promise):any
 ---@param promise Promise 异步对象
 ---@return any 异步完成返回的数据
@@ -3012,7 +3012,7 @@ end
 xx.async = Promise.async
 ---@see Promise#await
 xx.await = Promise.await
----启动新协程
+---在新协程中调用指定方法
 ---@type fun(handler:function|function[],caller:any,...:any):Promise
 ---@param handler function|function[] 协程函数，或者用表封装的函数（只关心表中第一个元素）
 ---@param caller any 需要异步调用的函数所属对象
