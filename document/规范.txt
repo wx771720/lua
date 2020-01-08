@@ -1,0 +1,34 @@
+项目代码分为 core 和 normal 两部分
+core: 核心代码，发布时不做特殊的处理，并放在最前面，不能引用 normal 部分代码
+normal: 普通代码，发布时会将 local 定义提到最前面
+----------------------------------lua 类
+使用 local 定义 class，并且定义在一行内（会将定义提前到最前面）
+在结尾使用 return class1, calss2 导出 local 类 或者 变量
+----------------------------------gid 规范
+gid 都小写，用 _ 隔开
+
+nb_xxx 广播类通知
+nba_xxx 异步广播类通知
+ni_xxx 接口类通知
+ng_xxx 直接返回结果类通知
+
+n: notice
+b: broadcast
+i: interface
+g: get
+a: async
+
+gid 注释格式：{注释}[，参数：无|类型-注释，类型-注释，...]
+----------------------------------通知
+通知的结束回调需要支持：Callbac|Signal|Promise
+    可以保存参数，在结束时调用 self:finishModule(...)
+
+数组长度不使用 #，使用 table.maxn
+数组遍历不用 
+    for k,v in ipairs(arr) do
+    end
+数组遍历使用
+    for i = table.maxn(arr), 1, -1, do
+        if arr[i] then
+        end
+    end

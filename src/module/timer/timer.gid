@@ -1,0 +1,25 @@
+//新建定时器
+//@param duration number 回调执行间隔（单位：毫秒）
+//@param count number 小于等于 0 表示无限次数
+//@param onOnce Callback 指定间隔后执行回调，参数：number（实际经过的时长，单位：毫秒），number（当前是第几次执行）
+//@param onComplete Callbac 指定次数执行完成后回调
+//@return string 定时器 id
+ni_timer_new = "ni_timer_new"
+
+//暂停定时器
+//@param id string 新建定时器时返回的 id
+ni_timer_pause = "ni_timer_pause"
+
+//继续定时器
+//@param id string 新建定时器时返回的 id
+ni_timer_resume = "ni_timer_resume"
+
+//停止定时器
+//@param id string 新建定时器时返回的 id
+//@param trigger boolean 是否触发完成回调，默认 false
+ni_timer_stop = "ni_timer_stop"
+
+//修改定时器速率
+//@param id string 新建定时器时返回的 id
+//@param rate number 定时器速率，默认 1 表示恢复正常速率
+ni_timer_rate = "ni_timer_rate"

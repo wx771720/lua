@@ -1,0 +1,97 @@
+//已改变事件
+//@param name string 改变的属性、字段等名字
+//@param newValue any 改变后的值
+//@param oldValue any 改变前的值
+e_changed = "e_changed"
+
+//完成事件
+//@param ... any[] 携带的数据
+e_complete = "e_complete"
+
+//根节点改变事件
+//@param oldRoot Node 之前的根节点
+e_root_changed = "e_root_changed"
+
+//将要添加到父节点事件
+//@param child Node 添加的子节点
+e_add = "e_add"
+
+//已添加子节点事件
+//@param child Node 添加的子节点
+e_added = "e_added"
+
+//将要移除子节点事件
+//@param child Node 移除的子节点
+e_remove = "e_remove"
+
+//已移除子节点事件
+//@param child Node 移除的子节点
+e_removed = "e_removed"
+
+
+//指针移入事件
+//@param screenX float 屏幕 x 坐标
+//@param screenY float 屏幕 y 坐标
+//@param screenY PointerEventData 事件原始对象
+e_enter = "e_enter"
+
+
+//指针移出事件
+
+//@param screenX float 屏幕 x 坐标
+//@param screenY float 屏幕 y 坐标
+//@param screenY PointerEventData 事件原始对象
+e_exit = "e_exit"
+
+
+//指针按下事件
+
+//@param screenX float 屏幕 x 坐标
+//@param screenY float 屏幕 y 坐标
+//@param screenY PointerEventData 事件原始对象
+e_down = "e_down"
+
+
+//指针释放事件
+
+//@param screenX float 屏幕 x 坐标
+//@param screenY float 屏幕 y 坐标
+//@param screenY PointerEventData 事件原始对象
+e_up = "e_up"
+
+
+//指针点击事件
+
+//@param screenX float 屏幕 x 坐标
+//@param screenY float 屏幕 y 坐标
+//@param screenY PointerEventData 事件原始对象
+e_click = "e_click"
+
+
+//指针开始拖拽事件
+
+//@param screenX float 屏幕 x 坐标
+//@param screenY float 屏幕 y 坐标
+//@param screenY PointerEventData 事件原始对象
+e_drag_begin = "e_drag_begin"
+
+
+//指针拖拽移动事件
+
+//@param screenX float 屏幕 x 坐标
+//@param screenY float 屏幕 y 坐标
+//@param screenY PointerEventData 事件原始对象
+e_drag_move = "e_drag_move"
+
+
+//指针拖拽结束事件
+
+//@param screenX float 屏幕 x 坐标
+//@param screenY float 屏幕 y 坐标
+//@param screenY PointerEventData 事件原始对象
+e_drag_end = "e_drag_end"
+
+//<summary>
+//粒子结束时事件
+//</summary>
+e_particle_complete = "e_particle_complete"

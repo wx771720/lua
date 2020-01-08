@@ -1,0 +1,483 @@
+-- -----------------------------------------------------------------------------
+-- Color
+-- -----------------------------------------------------------------------------
+---@class Color
+---@field public New fun(r:number,g:number,b:number,a:number):Color
+---@field public Lerp fun(a:Color,b:Color,t:number):Color
+---@field public LerpUnclamped fun(a:Color,b:Color,t:number):Color
+---@field public GrayScale fun(a:Color):number
+---@field public Set fun(self:Color,r:number,g:number,b:number,a:number)
+---@field public Get fun(self:Color):number,number,number,number
+---@field public Equals fun(self:Color,other:Color):boolean
+---@field red Color
+---@field green Color
+---@field blue Color
+---@field white Color
+---@field black Color
+---@field yellow Color
+---@field cyan Color
+---@field magenta Color
+---@field gray Color
+---@field clear Color
+---@field r number
+---@field g number
+---@field b number
+---@field a number
+Color = Color or {}
+-- -----------------------------------------------------------------------------
+-- Vector
+-- -----------------------------------------------------------------------------
+---@class Vector2
+---@field public New fun(x:number,y:number):Vector2
+---@field public Normalize fun(v:Vector2):Vector2
+---@field public Dot fun(lhs:Vector2,rhs:Vector2):number
+---@field public Angle fun(from:Vector2,to:Vector2):number
+---@field public Magnitude fun(v:Vector2):number
+---@field public Reflect fun(dir:Vector2,normal:Vector2):Vector2
+---@field public Distance fun(a:Vector2,b:Vector2):number
+---@field public Lerp fun(a:Vector2,b:Vector2,t:number):Vector2
+---@field public LerpUnclamped fun(a:Vector2,b:Vector2,t:number):Vector2
+---@field public MoveTowards fun(current:Vector2,target)
+---@field public ClampMagnitude fun(v:Vector2,maxLength:number):Vector2
+---@field public SmoothDamp fun(current:Vector2,target:Vector2,velocity:Vector2,smoothTime:number,maxSpeed:number,deltaTime:number):Vector2,Vector2
+---@field public Max fun(a:Vector2,b:Vector2):Vector2
+---@field public Min fun(a:Vector2,b:Vector2):Vector2
+---@field public Scale fun(a:Vector2,b:Vector2):Vector2
+---
+---@field public Set fun(self:Vector2,x:number,y:number)
+---@field public Get fun(self:Vector2):number,number
+---@field public SqrMagnitude fun(self:Vector2):number
+---@field public Clone fun(self:Vector2):Vector2
+---@field public SetNormalize fun(self:Vector2):Vector2
+---@field public Div fun(self:Vector2,d:Vector2):Vector2
+---@field public Mul fun(self:Vector2,d:Vector2):Vector2
+---@field public Add fun(self:Vector2,d:Vector2):Vector2
+---@field public Sub fun(self:Vector2,d:Vector2):Vector2
+---@field up Vector2
+---@field right Vector2
+---@field zero Vector2
+---@field one Vector2
+---@field x number
+---@field y number
+Vector2 = Vector2 or {}
+
+---@class Vector3
+---@field public New fun(x:number,y:number,z:number):Vector3
+---@field public Distance fun(va:Vector3,vb:Vector3):number
+---@field public Dot fun(lhs:Vector3,rhs:Vector3):number
+---@field public Angle fun(from:Vector3,to:Vector3):number
+---@field public Lerp fun(from:Vector3,to:Vector3,t:number):Vector3
+---@field public Magnitude fun():number
+---@field public Max fun(lhs:Vector3,rhs:Vector3):Vector3
+---@field public Min fun(lhs:Vector3,rhs:Vector3):Vector3
+---@field public Normalize fun(v:Vector3):Vector3
+---@field public OrthoNormalize fun(va:Vector3,vb:Vector3,vc:Vector3):Vector3,Vector3,Vector3
+---@field public MoveTowards fun(current:Vector3,target:Vector3,maxDistanceDelta:number):Vector3
+---@field public RotateTowards fun(current:Vector3,target:Vector3,maxRadiansDelta:number,maxMagnitudeDelta:number):Vector3
+---@field public SmoothDamp fun(current:Vector3,target:Vector3,currentVelocity:Vector3,smoothTime:number):Vector4,Vector3
+---@field public Scale fun(a:Vector3,b:Vector3):Vector3
+---@field public Cross fun(lhs:Vector3,rhs:Vector3):Vector3
+---@field public Reflect fun(inDirection:Vector3,inNormal:Vector3):Vector3
+---@field public Project fun(vector:Vector3,onNormal:Vector3):Vector3
+---@field public ProjectOnPlane fun(vector:Vector3,planeNormal:Vector3):Vector3
+---@field public Slerp fun(from:Vector3,to:Vector3,t:number):Vector3
+---@field public AngleAroundAxis fun(from:Vector3,to:Vector3,axis:Vector3):number
+---
+---@field public Set fun(self:Vector3,x:number,y:number,z:number)
+---@field public Get fun(self:Vector3):number,number,number
+---@field public SqrMagnitude fun(self:Vector3):number
+---@field public Clone fun(self:Vector3):Vector3
+---@field public SetNormalize fun(self:Vector3):Vector3
+---@field public ClampMagnitude fun(self:Vector3,maxLength:number):Vector3
+---@field public Equals fun(self:Vector3,other:Vector3):boolean
+---@field public Mul fun(self:Vector3,q:Vector3):Vector3
+---@field public Div fun(self:Vector3,d:Vector3):Vector3
+---@field public Add fun(self:Vector3,vb:Vector3):Vector3
+---@field public Sub fun(self:Vector3,vb:Vector3):Vector3
+---@field public MulQuat fun(self:Vector3,vb:Vector4):Vector3
+---@field up Vector3
+---@field down Vector3
+---@field right Vector3
+---@field left Vector3
+---@field forward Vector3
+---@field back Vector3
+---@field zero Vector3
+---@field one Vector3
+---@field x number
+---@field y number
+---@field z number
+Vector3 = Vector3 or {}
+
+---@class Vector4
+---@field public New fun(x:number,y:number,z:number,w:number):Vector4
+---@field public Lerp fun(from:Vector4,to:Vector4,t:number):Vector4
+---@field public MoveTowards fun(current:Vector4,target:Vector4,maxDistanceDelta:number):Vector4
+---@field public Scale fun(a:Vector4,b:Vector4):Vector4
+---@field public Dot fun(a:Vector4,b:Vector4):number
+---@field public Project fun(a:Vector4,b:Vector4):Vector4
+---@field public Distance fun(a:Vector4,b:Vector4):number
+---@field public Magnitude fun(a:Vector4):number
+---@field public SqrMagnitude fun(a:Vector4):number
+---@field public Max fun(lhs:Vector4,rhs:Vector4):Vector4
+---@field public Min fun(lhs:Vector4,rhs:Vector4):Vector4
+---
+---@field public Set fun(self:Vector4,x:number,y:number,z:number,w:number)
+---@field public Get fun(self:Vector4):number,number,number,number
+---@field public SetScale fun(self:Vector4,scale:Vector4)
+---@field public Normalize fun(self:Vector4):Vector4
+---@field public SetNormalize fun(self:Vector4):Vector4
+---@field public Div fun(d:Vector4):Vector4
+---@field public Mul fun(d:Vector4):Vector4
+---@field public Add fun(b:Vector4):Vector4
+---@field public Sub fun(b:Vector4):Vector4
+---@field x number
+---@field y number
+---@field z number
+---@field w number
+Vector4 = Vector4 or {}
+-- -----------------------------------------------------------------------------
+-- Unity
+-- -----------------------------------------------------------------------------
+---@class UnityEngine.MonoBehaviour
+local UnityEngineMonoBehaviour
+---@class UnityEngine.Events
+local UnityEngineEvents
+---@class UnityEngine.Application
+local UnityEngineApplication
+---@class UnityEngine.Ray
+local UnityEngineRay
+---@class UnityEngine.Networking
+local UnityEngineNetworking
+---@class UnityEngine.Resources
+local UnityEngineResources
+---@class UnityEngine.Touch
+local UnityEngineTouch
+---@class UnityEngine.Physics
+local UnityEnginePhysics
+---@class UnityEngine.Plane
+local UnityEnginePlane
+---@class UnityEngine.Shader
+local UnityEngineShader
+---@class UnityEngine.AssetBundle
+local UnityEngineAssetBundle
+---@class UnityEngine.Time
+local UnityEngineTime
+---@class UnityEngine.Input
+local UnityEngineInput
+---@class UnityEngine.Bounds
+local UnityEngineBounds
+---@class UnityEngine.Material
+local UnityEngineMaterial
+---@class UnityEngine.Animator
+local UnityEngineAnimator
+---@class UnityEngine.ParticleSystem
+local UnityEngineParticleSystem
+---@class UnityEngine.Texture
+local UnityEngineTexture
+---@class UnityEngine.Screen
+local UnityEngineScreen
+---@class UnityEngine.Sprite
+local UnityEngineSprite
+---@class UnityEngine.Texture2D
+local UnityEngineTexture2D
+---@class UnityEngine.Renderer
+local UnityEngineRenderer
+---@class UnityEngine.Collider
+local UnityEngineCollider
+---@class UnityEngine.Camera
+local UnityEngineCamera
+---@class UnityEngine.Font
+local UnityEngineFont
+-- -----------------------------------------------------------------------------
+-- UnityEngine
+-- -----------------------------------------------------------------------------
+---@class UnityEngine
+---@field Object UnityEngine.Object
+---@field GameObject GameObject
+---@field Component UnityEngine.Component
+---@field Transform Transform
+---@field RectTransform UnityEngine.RectTransform
+---
+---@field MonoBehaviour UnityEngine.MonoBehaviour
+---@field Events UnityEngine.Events
+---@field Application UnityEngine.Application
+---@field Ray UnityEngine.Ray
+---@field Networking UnityEngine.Networking
+---@field Resources UnityEngine.Resources
+---@field Touch UnityEngine.Touch
+---@field Physics UnityEngine.Physics
+---@field Plane UnityEngine.Plane
+---@field Shader UnityEngine.Shader
+---@field AssetBundle UnityEngine.AssetBundle
+---@field Time UnityEngine.Time
+---@field Input UnityEngine.Input
+---@field Bounds UnityEngine.Bounds
+---@field Material UnityEngine.Material
+---@field Animator UnityEngine.Animator
+---@field ParticleSystem UnityEngine.ParticleSystem
+---@field Texture UnityEngine.Texture
+---@field Screen UnityEngine.Screen
+---@field Sprite UnityEngine.Sprite
+---@field Texture2D UnityEngine.Texture2D
+---@field Renderer UnityEngine.Renderer
+---@field Collider UnityEngine.Collider
+---@field Camera UnityEngine.Camera
+UnityEngine = UnityEngine or {}
+-- -----------------------------------------------------------------------------
+-- Object
+-- -----------------------------------------------------------------------------
+---@class UnityEngine.Object
+---@field name string
+---
+---@field public Destroy fun(obj:UnityEngine.Object)
+---@field public Instantiate fun(original:UnityEngine.Object):UnityEngine.Object
+---@field public Instantiate fun(original:UnityEngine.Object,parent:Transform):UnityEngine.Object
+local UnityEngineObject
+-- -----------------------------------------------------------------------------
+-- GameObject
+-- -----------------------------------------------------------------------------
+---@class GameObject:UnityEngine.Object
+---@field transform Transform
+---
+---@field Find fun(name:string):GameObject
+---@field FindGameObjectsWithTag fun(tag:string):GameObject[]
+---
+---@field AddComponent fun(self:GameObject,type:any):UnityEngine.Component
+---@field GetComponent fun(self:GameObject,type:string|any):UnityEngine.Component
+---
+---@field public GetVisible fun(self:GameObject):boolean
+---@field public SetVisible fun(self:GameObject,visible:boolean)
+---@field public GetAlpha fun(self:GameObject):number
+---@field public SetAlpha fun(self:GameObject,alpha:number)
+---@field public GetColor fun(self:GameObject):Color
+---@field public SetColor fun(self:GameObject,color:Color)
+---@field public SetColor fun(self:GameObject,rInOnce:number,gInOnce:number,bInOnce:number,aInOnce:number)
+---
+---@field public GetX fun(self:GameObject):number
+---@field public SetX fun(self:GameObject,x:number)
+---@field public GetY fun(self:GameObject):number
+---@field public SetY fun(self:GameObject,y:number)
+---@field public GetZ fun(self:GameObject):number
+---@field public SetZ fun(self:GameObject,z:number)
+---@field public SetPosition fun(self:GameObject,x:number,y:number)
+---@field public SetPosition fun(self:GameObject,x:number,y:number,z:number)
+---@field public GetScaleX fun(self:GameObject):number
+---@field public SetScaleX fun(self:GameObject,scaleX:number)
+---@field public GetScaleY fun(self:GameObject):number
+---@field public SetScaleY fun(self:GameObject,scaleY:number)
+---@field public GetScaleZ fun(self:GameObject):number
+---@field public SetScaleZ fun(self:GameObject,scaleZ:number)
+---@field public SetScale fun(self:GameObject,scaleX:number,scaleY:number)
+---@field public SetScale fun(self:GameObject,scaleX:number,scaleY:number,scaleZ:number)
+---@field public GetRotationX fun(self:GameObject):number
+---@field public SetRotationX fun(self:GameObject,rotationX:number)
+---@field public GetRotationY fun(self:GameObject):number
+---@field public SetRotationY fun(self:GameObject,rotationY:number)
+---@field public GetRotationZ fun(self:GameObject):number
+---@field public SetRotationZ fun(self:GameObject,rotationZ:number)
+---@field public SetRotation fun(self:GameObject,rotationZ:number)
+---@field public SetRotation fun(self:GameObject,rotationZ:number,rotationY:number)
+---@field public SetRotation fun(self:GameObject,rotationZ:number,rotationY:number,rotationX:number)
+---
+---@field public GetPivotX fun(self:GameObject):number
+---@field public SetPivotX fun(self:GameObject,pivotX:number)
+---@field public GetPivotY fun(self:GameObject):number
+---@field public SetPivotY fun(self:GameObject,pivotY:number)
+---@field public SetPivot fun(self:GameObject,pivotX:number,pivotY:number)
+---@field public GetWidth fun(self:GameObject):number
+---@field public SetWidth fun(self:GameObject,width:number)
+---@field public GetHeight fun(self:GameObject):number
+---@field public SetHeight fun(self:GameObject,height:number)
+---@field public SetSize fun(self:GameObject,width:number,height:number)
+---
+---@field public AnchorTop fun(self:GameObject)
+---@field public AnchorMiddle fun(self:GameObject)
+---@field public AnchorBottom fun(self:GameObject)
+---@field public AnchorLeft fun(self:GameObject)
+---@field public AnchorCenter fun(self:GameObject)
+---@field public AnchorRight fun(self:GameObject)
+---@field public AnchorTopLeft fun(self:GameObject)
+---@field public AnchorTopCenter fun(self:GameObject)
+---@field public AnchorTopRight fun(self:GameObject)
+---@field public AnchorMiddleLeft fun(self:GameObject)
+---@field public AnchorMiddleCenter fun(self:GameObject)
+---@field public AnchorMiddleRight fun(self:GameObject)
+---@field public AnchorBottomLeft fun(self:GameObject)
+---@field public AnchorBottomCenter fun(self:GameObject)
+---@field public AnchorBottomRight fun(self:GameObject)
+---@field public StretchHorizontal fun(self:GameObject)
+---@field public StretchVertical fun(self:GameObject)
+---@field public StretchBoth fun(self:GameObject)
+---
+---@field public AnchorSet fun(self:GameObject,minX:number|nil,minY:number|nil,maxX:number|nil,maxY:number|nil,pivotX:number|nil,pivotY:number|nil,x:number|nil,y:number|nil)
+---@field public AnchorTop fun(self:GameObject,y:number)
+---@field public AnchorMiddle fun(self:GameObject,y:number)
+---@field public AnchorBottom fun(self:GameObject,y:number)
+---@field public AnchorLeft fun(self:GameObject,x:number)
+---@field public AnchorCenter fun(self:GameObject,x:number)
+---@field public AnchorRight fun(self:GameObject,x:number)
+---@field public AnchorTopLeft fun(self:GameObject,x:number,y:number)
+---@field public AnchorTopCenter fun(self:GameObject,x:number,y:number)
+---@field public AnchorTopRight fun(self:GameObject,x:number,y:number)
+---@field public AnchorMiddleLeft fun(self:GameObject,x:number,y:number)
+---@field public AnchorMiddleCenter fun(self:GameObject,x:number,y:number)
+---@field public AnchorMiddleRight fun(self:GameObject,x:number,y:number)
+---@field public AnchorBottomLeft fun(self:GameObject,x:number,y:number)
+---@field public AnchorBottomCenter fun(self:GameObject,x:number,y:number)
+---@field public AnchorBottomRight fun(self:GameObject,x:number,y:number)
+---@field public StretchHorizontal fun(self:GameObject,left:number,right:number)
+---@field public StretchVertical fun(self:GameObject,top:number,bottom:number)
+---@field public StretchBoth fun(self:GameObject,left:number,right:number,top:number,bottom:number)
+---
+---@field public ScreenToLocal fun(self:GameObject,screenX:number,screenY:number):Vector2
+---@field public ScreenToLocal fun(self:GameObject,screenPoint:Vector2):Vector2
+---@field public LocalToScreen fun(self:GameObject,screenX:number,screenY:number):Vector2
+---@field public LocalToScreen fun(self:GameObject,screenPoint:Vector2):Vector2
+---
+---@field public SetBool fun(self:GameObject,name:string,value:boolean)
+---@field public SetInteger fun(self:GameObject,name:string,value:number)
+---@field public SetFloat fun(self:GameObject,name:string,value:number)
+---@field public SetTrigger fun(self:GameObject,name:string)
+---@field public PlayAnimator fun(self:GameObject,name:string)
+---@field public StopAnimator fun(self:GameObject)
+---@field public UpdateAnimator fun(self:GameObject,deltaTimeMS:number)
+---
+---@field public PlayParticleSystem fun(self:GameObject)
+---@field public PlayParticleSystem fun(self:GameObject,withChildren:boolean)
+---@field public PauseParticleSystem fun(self:GameObject)
+---@field public PauseParticleSystem fun(self:GameObject,withChildren:boolean)
+---@field public StopParticleSystem fun(self:GameObject)
+---@field public StopParticleSystem fun(self:GameObject,withChildren:boolean)
+---
+---@field public GetTouchable fun(self:GameObject):boolean
+---@field public SetTouchable fun(self:GameObject,touchable:boolean)
+---@field public GetMaterial fun(self:GameObject):UnityEngine.Material
+---@field public SetMaterial fun(self:GameObject,material:UnityEngine.Material)
+---
+---@field public ToImage fun(self:GameObject)
+---@field public IsImage fun(self:GameObject):boolean
+---@field public GetSprite fun(self:GameObject):UnityEngine.Sprite
+---@field public SetSprite fun(self:GameObject,sprite:UnityEngine.Sprite)
+---@field public SetNativeSize fun(self:GameObject)
+---@field public SetTypeSimple fun(self:GameObject)
+---@field public SetTypeSliced fun(self:GameObject)
+---@field public SetTypeTiled fun(self:GameObject)
+---@field public SetTypeFilled fun(self:GameObject)
+---@field public SetFillHorizontal fun(self:GameObject)
+---@field public SetFillVertical fun(self:GameObject)
+---@field public SetFillRadia90 fun(self:GameObject)
+---@field public SetFillRadia180 fun(self:GameObject)
+---@field public SetFillRadia360 fun(self:GameObject)
+---@field public SetOriginHorizontalLeft fun(self:GameObject)
+---@field public SetOriginHorizontalRight fun(self:GameObject)
+---@field public SetOriginVerticalBottom fun(self:GameObject)
+---@field public SetOriginVerticalTop fun(self:GameObject)
+---@field public SetOriginRadia90BottomLeft fun(self:GameObject)
+---@field public SetOriginRadia90TopLeft fun(self:GameObject)
+---@field public SetOriginRadia90TopRight fun(self:GameObject)
+---@field public SetOriginRadia90BottomRight fun(self:GameObject)
+---@field public SetOriginRadia180Bottom fun(self:GameObject)
+---@field public SetOriginRadia180Left fun(self:GameObject)
+---@field public SetOriginRadia180Top fun(self:GameObject)
+---@field public SetOriginRadia180Right fun(self:GameObject)
+---@field public SetOriginRadia360Bottom fun(self:GameObject)
+---@field public SetOriginRadia360Right fun(self:GameObject)
+---@field public SetOriginRadia360Top fun(self:GameObject)
+---@field public SetOriginRadia360Left fun(self:GameObject)
+---@field public GetFillAmount fun(self:GameObject):number
+---@field public SetFillAmount fun(self:GameObject,amount:number)
+---@field public GetFillClockwise fun(self:GameObject):boolean
+---@field public SetFillClockwise fun(self:GameObject,clockwise:boolean)
+---@field public GetFillCenter fun(self:GameObject):boolean
+---@field public SetFillCenter fun(self:GameObject,fillCenter:boolean)
+---@field public GetPreserveAspect fun(self:GameObject):boolean
+---@field public SetPreserveAspect fun(self:GameObject,preserveAspect:boolean)
+---
+---@field public ToText fun(self:GameObject)
+---@field public IsText fun(self:GameObject):boolean
+---@field public GetText fun(self:GameObject):string
+---@field public SetText fun(self:GameObject,text:string)
+---@field public GetFontColor fun(self:GameObject):Color
+---@field public SetFontColor fun(self:GameObject,color:Color)
+---@field public GetFontSize fun(self:GameObject):number
+---@field public SetFontSize fun(self:GameObject,fontSize:number)
+---@field public GetFont fun(self:GameObject):UnityEngine.Font
+---@field public SetFont fun(self:GameObject,font:UnityEngine.Font)
+---@field public SetStyleNormal fun(self:GameObject)
+---@field public SetStyleBold fun(self:GameObject)
+---@field public SetStyleItalic fun(self:GameObject)
+---@field public SetStyleBoldAndItalic fun(self:GameObject)
+---@field public GetAlignByGeometry fun(self:GameObject):boolean
+---@field public SetAlignByGeometry fun(self:GameObject,alignByGeometry:boolean)
+---@field public SetHorizontalWrap fun(self:GameObject)
+---@field public SetHorizontalOverflow fun(self:GameObject)
+---@field public SetVerticalTruncate fun(self:GameObject)
+---@field public SetVerticalOverflow fun(self:GameObject)
+---@field public GetResizeTextForBestFit fun(self:GameObject):boolean
+---@field public SetResizeTextForBestFit fun(self:GameObject,resizeTextForBestFit:boolean)
+---@field public GetResizeTextMinSize fun(self:GameObject):number
+---@field public SetResizeTextMinSize fun(self:GameObject,resizeTextMinSize:number)
+---@field public GetResizeTextMaxSize fun(self:GameObject):number
+---@field public SetResizeTextMaxSize fun(self:GameObject,resizeTextMaxSize:number)
+---@field public SetResizeText fun(self:GameObject)
+---@field public SetResizeText fun(self:GameObject,resizeTextForBestFit:boolean,resizeTextMinSize:number,resizeTextMaxSize:number)
+---@field public GetLineSpacing fun(self:GameObject):number
+---@field public SetLineSpacing fun(self:GameObject,lineSpacing:number)
+---@field public SetAlignUpperLeft fun(self:GameObject)
+---@field public SetAlignUpperCenter fun(self:GameObject)
+---@field public SetAlignUpperRight fun(self:GameObject)
+---@field public SetAlignMiddleLeft fun(self:GameObject)
+---@field public SetAlignMiddleCenter fun(self:GameObject)
+---@field public SetAlignMiddleRight fun(self:GameObject)
+---@field public SetAlignLowerLeft fun(self:GameObject)
+---@field public SetAlignLowerCenter fun(self:GameObject)
+---@field public SetAlignLowerRight fun(self:GameObject)
+---@field public SetAutoSizeHorizontal fun(self:GameObject,autoSize:boolean)
+---@field public SetAutoSizeVertical fun(self:GameObject,autoSize:boolean)
+---@field public SetAutoSize fun(self:GameObject)
+---@field public SetAutoSize fun(self:GameObject,horizontal:boolean,vertical:boolean)
+---
+---@field public AddEventListener fun(self:GameObject,type:string,handler:Handler,...:any[])
+---@field public Once fun(self:GameObject,type:string,handler:Handler,...:any[])
+---@field public RemoveEventListener fun(self:GameObject,type:string|nil,handler:Handler|nil)
+---@field public HasEventListener fun(self:GameObject,type:string|nil,handler:Handler|nil)
+---@field public Dispatch fun(self:GameObject,type:string,...:any[])
+---
+---@field public GetFromHolder fun(self:GameObject,name:string):any
+GameObject = UnityEngine.GameObject
+-- -----------------------------------------------------------------------------
+-- Component
+-- -----------------------------------------------------------------------------
+---@class UnityEngine.Component:UnityEngine.Object
+---@field gameObject GameObject
+---
+---@field public GetComponent fun(self:UnityEngine.Component,type:string):UnityEngine.Component
+local UnityEngineComponent
+-- -----------------------------------------------------------------------------
+-- Transform
+-- -----------------------------------------------------------------------------
+---@class Transform:UnityEngine.Component
+---@field childCount number
+---
+---@field public Find fun(self:Transform,name:string):Transform
+---@field public FindChild fun(self:Transform,name:string):Transform
+---@field public GetChild fun(self:Transform,index:number):Transform
+---@field public SetParent fun(self:Transform,parent:Transform)
+---@field public SetParent fun(self:Transform,parent:Transform,worldPositionStays:boolean)
+---@field public SetSiblingIndex fun(self:Transform,index:number)
+---@field public LookAt fun(self:Transform,target:Transform)
+---@field public LookAt fun(self:Transform,worldPosition:Vector3)
+---@field public LookAt fun(self:Transform,worldPosition:Vector3,worldUp:Vector3)
+---@field public TransformPoint fun(self:Transform,x:number,y:number,z:number):Vector3
+---@field public TransformPoint fun(self:Transform,position:Vector3):Vector3
+---@field public TransformDirection fun(self:Transform,x:number,y:number,z:number):Vector3
+---@field public TransformDirection fun(self:Transform,direction:Vector3):Vector3
+---@field public TransformVector fun(self:Transform,x:number,y:number,z:number):Vector3
+---@field public TransformVector fun(self:Transform,position:Vector3):Vector3
+---@field public InverseTransformPoint fun(self:Transform,x:number,y:number,z:number):Vector3
+---@field public InverseTransformPoint fun(self:Transform,position:Vector3):Vector3
+---@field public InverseTransformDirection fun(self:Transform,x:number,y:number,z:number):Vector3
+---@field public InverseTransformDirection fun(self:Transform,direction:Vector3):Vector3
+---@field public InverseTransformVector fun(self:Transform,x:number,y:number,z:number):Vector3
+---@field public InverseTransformVector fun(self:Transform,position:Vector3):Vector3
+Transform = UnityEngine.Transform

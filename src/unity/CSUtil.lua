@@ -1,0 +1,73 @@
+-- -----------------------------------------------------------------------------
+-- CS Event
+-- -----------------------------------------------------------------------------
+---@class CSEvent
+---@field Target any
+---@field Type string
+---@field Args any[]
+---@field CurrentTarget any
+---@field IsStopBubble boolean
+---@field IsStopImmediate boolean
+---
+---@field public StopBubble fun(self:CSEvent)
+---@field public StopImmediate fun(self:CSEvent)
+local CSEvent = xx.CSEvent
+-- -----------------------------------------------------------------------------
+-- CS Util
+-- -----------------------------------------------------------------------------
+---@class Util
+---@field Version string
+---@field Timestamp number
+---@field TimeRunning number
+---
+---@field public NewUID fun():string
+---@field public NewUUID fun():string
+---@field public Bezier fun(percent:number,...:number[]):number
+---@field public StrInitialUpperCase fun(text:string):string
+---@field public StrInitialLowerCase fun(text:string):string
+---@field public GetUrlRaw fun(url:string):string
+---@field public GetUrlParam fun(url:string,key:string):string
+---@field public GetUrlExtension fun(url:string):string
+---@field public GetUrlName fun(url:string):string
+---@field public GetUrlPath fun(url:string):string
+---@field public ToUrlParamStr fun(...:string[]):string
+---
+---@field public Notify fun(notice:string,...:any[]):any
+---@field public Debug fun(message:string,...:any[])
+---@field public Warn fun(message:string,...:any[])
+---@field public Error fun(message:string,...:any[])
+---@field public Later fun(handler:Handler,...:any[]):string
+---@field public Delay fun(time:number,handler:Handler,...:any[]):string
+---@field public Loop fun(interval:number,count:number,onOnce:Handler,onComplete:Handler,...:any[]):string
+---@field public TimerPause fun(id:string)
+---@field public TimerResume fun(id:string)
+---@field public TimerStop fun(id:string)
+---@field public TimerStop fun(id:string,trigger:boolean)
+---@field public TimerRate fun(id:string)
+---@field public TimerRate fun(id:string,rate:number)
+---
+---@field public Load fun(url:string,onComplete:Handler,onRetry:Handler,type:string,tryCount:number,tryDelay:number,timeout:number):string
+---@field public LoadBinary fun(url:string,onComplete:Handler,onRetry:Handler,tryCount:number,tryDelay:number,timeout:number):string
+---@field public LoadString fun(url:string,onComplete:Handler,onRetry:Handler,tryCount:number,tryDelay:number,timeout:number):string
+---@field public LoadTexture fun(url:string,onComplete:Handler,onRetry:Handler,tryCount:number,tryDelay:number,timeout:number):string
+---@field public LoadSprite fun(url:string,onComplete:Handler,onRetry:Handler,tryCount:number,tryDelay:number,timeout:number):string
+---@field public LoadAudio fun(url:string,onComplete:Handler,onRetry:Handler,tryCount:number,tryDelay:number,timeout:number):string
+---@field public LoadAssetBundle fun(url:string,onComplete:Handler,onRetry:Handler,tryCount:number,tryDelay:number,timeout:number):string
+---@field public LoadStop fun(id:string)
+---
+---@field public NewOrRefresh fun(x:number,y:number,z:number):Vector3
+---@field public NewOrRefresh fun(x:number,y:number,z:number,vector:Vector3):Vector3
+---@field public NewOrRefresh fun(x:number,y:number):Vector2
+---@field public NewOrRefresh fun(x:number,y:number,vector:Vector2):Vector2
+---@field public NewOrRefresh fun(r:number,g:number,b:number,a:number):Color
+---@field public NewOrRefresh fun(r:number,g:number,b:number,a:number,color:Color):Color
+---
+---@field UnityDataPath string
+---@field UnityStreamingPath string
+---@field UnityTemporaryPath string
+---@field UnityPersistentPath string
+---@field public GetRootGO fun():GameObject
+---@field public GetRootCVS fun():GameObject
+---@field public GetLayerGO fun(layer:number):GameObject
+---@field public GetLayerCVS fun(layer:number):GameObject
+local Util = xx.Util

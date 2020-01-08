@@ -1,0 +1,10 @@
+//---创建缓动器
+//---@param targets ... 缓动目标列表
+//---@return Tween
+ni_tween_new = "ni_tween_new"
+
+//---停止缓动对象
+//---@param target any 缓动目标
+//---@param trigger bool 是否在停止时触发回调，默认 false
+//---@param toEnd bool 是否在停止时设置属性为结束值，默认 false
+ni_tween_stop = "ni_tween_stop"

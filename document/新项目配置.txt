@@ -1,0 +1,37 @@
+1. 下载并拷贝 tolua 到指定目录
+2. 将 LuaForUnity 下的文件拷贝到项目根目录
+3. 修改以下文件内容
+Assets/Editor/Custom/CustomSettings.cs
+    staticClassTypes 中添加
+        typeof(xx.Util),
+
+    customDelegateList 中添加
+        _DT(typeof(xx.Handler)),
+
+    customTypeList 中
+        修改
+        _GT(typeof(GameObject)), => _GT(typeof(GameObject)).AddExtendType(typeof(xx.GameObjectEx)),
+        添加
+        _GT(typeof(Sprite)),
+        _GT(typeof(RectTransform)),
+        _GT(typeof(xx.Util)),
+        _GT(typeof(xx.Event)).SetLibName("CSEvent"),
+        _GT(typeof(xx.EventDispatcher)).SetLibName("CSEventDispatcher"),
+
+Assets/ToLua/Editor/ToLuaExport.cs
+    GenRegisterFunction 中注释掉 else if (!type.IsGenericType) { ... }
+
+Assets/Editor/Source/LuaConst.cs
+    //lua逻辑代码目录
+    public static string luaDir = Application.dataPath + "/Scripts/Lua";
+4. 安装项目 gulp 环境
+npm install --save-dev gulp
+npm install --save-dev merge-stream
+npm install --save-dev gulp-rename
+npm install --save-dev gulp-concat
+npm install --save-dev gulp-zip
+npm install --save-dev gulp-ftp
+
+5. 执行 outGID 和 outModule gulp 命令
+6. 场景中添加 Canvas 并添加 xx.Laucher 组件
+Laucher AssemblyNames 属性添加当前项目名：Assembly-CSharp

@@ -1,0 +1,31 @@
+//<summary>
+//按 url 资源名字类型加载资源（字符串、字节数组）
+//</summary>
+//<para name="url">string 资源地址</para>
+//<para name="type">string 资源类型，null 表示按 url 类型加载</para>
+//<para name="tryCount">int 加载超时后的重试次数，小于 0 表示无限次数，等于 0 表示不重试</para>
+//<para name="tryDelay">int 加载超时后重试间隔时长（单位：毫秒）</para>
+//<para name="timeout">int 加载超时时长（单位：毫秒）</para>
+//<para name="onRetry">Callback 重试时回调</para>
+//<para name="onComplete">Callback 加载完成后回调，参数：string|byte[]|null</para>
+//<returns>string 加载 id</returns>
+ni_load = "ni_load"
+
+//<summary>
+//停止加载
+//</summary>
+//<para name="id">string 加载 id</para>
+ni_load_stop = "ni_load_stop"
+
+//加载类型：二进制
+load_type_binary = "binary"
+//加载类型：字符串
+load_type_string = "string"
+//加载类型：Texture
+load_type_texture = "texture"
+//加载类型：Sprite
+load_type_sprite = "sprite"
+//加载类型：AudioClip
+load_type_audioclip = "audioclip"
+//加载类型：AssetBundle
+load_type_assetbundle = "assetbundle"

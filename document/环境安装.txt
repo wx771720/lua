@@ -1,0 +1,45 @@
+安装 jdk，并配置好系统环境变量
+    新建 JAVA_HOME
+        C:\Program Files\Java\jdk-13.0.1
+    新建 CLASSPATH
+        %JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar;
+    Path 添加：
+        %JAVA_HOME%\bin
+        %JAVA_HOME%\jre\bin
+安装 vscode
+----------------------------------nodejs
+安装 nodejs
+
+在终端执行 node 测试是否安装成功
+----------------------------------gulp
+安装插件 Gulp Tasks
+安装插件 Gulp Snippets
+
+执行 npm install --global gulp
+
+npm install --save-dev gulp
+npm install --save-dev merge-stream
+npm install --save-dev gulp-rename
+npm install --save-dev gulp-concat
+npm install --save-dev gulp-zip
+npm install --save-dev gulp-ftp
+npm install --save-dev node-xlsx
+npm install --save-dev protobufjs
+
+在终端执行 gulp -v 测试是否安装成功
+输出：
+    CLI version: 2.2.0
+    Local version: 4.0.2
+----------------------------------lua
+安装插件 EmmyLua
+安装插件 Lua Debug（actboy168），并配置 launch.json
+    {
+        "name": "launch",
+        "type": "lua",
+        "request": "launch",
+        "stopOnEntry": true,
+        "program": "${workspaceFolder}/bin-release/main.lua"
+    }
+
+下载 Lua.exe，并配置好环境变量
+在终端执行 lua 测试是否安装成功
