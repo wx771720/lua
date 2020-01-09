@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package xx;
+
+message User {
+	uint32 ID = 1;
+	string Name = 2;
+	int32 Gender = 3;
+	uint32 Age = 4;
+	repeated string Titles = 5;
+}

@@ -121,27 +121,10 @@ const releaseOutPath = "bin-release/";
 gulp.task("release", gulp.series(
     "outGID",
     function (done) {
-        release(classReleaseName, releaseOutPath, ...classURLList);//Class
-        release(promiseReleaseName, releaseOutPath, ...promiseURLList);//Promise
-        release(protobufReleaseName, releaseOutPath, ...protobufURLList);//Protobuf
-        release(releaseName, releaseOutPath, ...urlList);//all for unity
+        release(classReleaseName, `${releaseOutPath}bin/`, ...classURLList);//Class
+        release(promiseReleaseName, `${releaseOutPath}bin/`, ...promiseURLList);//Promise
+        release(protobufReleaseName, `${releaseOutPath}bin/`, ...protobufURLList);//Protobuf
+        release(releaseName, `${releaseOutPath}bin/`, ...urlList);//all for unity
         done();
     }
 ));
-
-// excel 解析测试
-gulp.task("outExcel", done => {
-    var map = parseExcel("xx", "C:/Users/lvyunlong/Desktop/node-excel/excel/");
-    fs.writeFileSync(`${releaseOutPath}excel.proto`, map.proto);// 输出 proto 文件
-    // 输出 bytes 文件
-    for (var name in map.bytes) {
-        fs.writeFileSync(`${releaseOutPath}${name}.bytes`, map.bytes[name]);
-    }
-
-    var root = protobuf.parse(fs.readFileSync(`${releaseOutPath}excel.proto`, "utf8")).root;
-    var type = root.lookupType("xx.TestMessageAry");
-    var value = type.decode(fs.readFileSync(`${releaseOutPath}TestMessage.bytes`)).toJSON();
-    console.log(JSON.stringify(value));
-
-    done();
-});

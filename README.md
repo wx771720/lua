@@ -1,7 +1,7 @@
 # 该项目为 lua 封装库，所有的功能都在 xx 域空间内
 ## 1 核心部分：
 - 1.1 **`xx.newUID()` 获取一个运行时唯一字符串标识**
-- 1.2 **`xx.Class` 定义类：`local NewClass = xx.Class("NewClass"[, BaseClass])`**
+- 1.2 **`xx.Class` 定义类：`local NewClass = xx.Class("NewClass"[, BaseClass])`->[example](https://github.com/wx771720/lua/blob/master/bin-release/test_class.lua)**
     - 1.2.1 `Class.getter` 获取实例属性值（直接返回缓存的值，不会调用类方法 `getter`）
     - 1.2.2 `Class.setter` 设置实例属性值（直接缓存属性的值，不会调用类方法 `setter`）
     - 1.2.3 `Class.isClass` 判断指定对象是否是类型
@@ -63,7 +63,7 @@
     - 2.2.1 `xx.addInstance` 将实例作为单例缓存起来，可使用实例类名访问
     - 2.2.2 `xx.delInstance` 删除已缓存的类名对应的实例
     - 2.2.3 `xx.getInstance` 通过类名获取已缓存的实例，如果未缓存，会自动构建一个实例并缓存起来
-- 2.3 **`Protobuf`**
+- 2.3 **`Protobuf`**->[example](https://github.com/wx771720/lua/blob/master/bin-release/test_protobuf.lua)
     - 3.1 `xx.Bit` 二进制转换
         - 3.1.1 `xx.Bit.intBits` 将数值按整数转换为指定位数的二进制格式
         - 3.1.2 `xx.Bit.decimalBits` 将数值按浮点数转换为指定位数的二进制格式（只支持 32 和 64 位）
@@ -89,7 +89,7 @@
         - 3.2.1 `xx.Protobuf.parse` 解析 proto 配置文件
         - 3.2.2 `xx.Protobuf.decode` 解码
         - 3.2.3 `xx.Protobuf.encode` 编码
-- 2.4 **`Promise`**
+- 2.4 **`Promise`**->[example](https://github.com/wx771720/lua/blob/master/bin-release/test_promise.lua)
     - 4.1 `xx.Promise:resolve` 完成异步
     - 4.2 `xx.Promise:reject` 拒绝异步
     - 4.3 `xx.Promise:cancel` 取消异步（吃掉错误）
