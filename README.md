@@ -1,4 +1,15 @@
 # 该项目为 lua 封装库，所有的功能都在 xx 域空间内
+## download
+- [class.lua : 包含了 lua 类的实现](https://github.com/wx771720/lua/blob/master/bin-release/bin/class.lua)
+- [class_min.lua : 包含了 lua 类的实现](https://github.com/wx771720/lua/blob/master/bin-release/bin/class_min.lua)
+- [promise.lua : 包含 class 和 Promise A+ 规范的实现](https://github.com/wx771720/lua/blob/master/bin-release/bin/promise.lua)
+- [promise_min.lua : 包含 class 和 Promise A+ 规范的实现](https://github.com/wx771720/lua/blob/master/bin-release/bin/promise_min.lua)
+- [protobuf.lua : 包含 class 和 Protobuf 的实现](https://github.com/wx771720/lua/blob/master/bin-release/bin/protobuf.lua)
+- [protobuf_min.lua : 包含 class 和 Protobuf 的实现](https://github.com/wx771720/lua/blob/master/bin-release/bin/protobuf_min.lua)
+- [xx.lua : 包含所有功能](https://github.com/wx771720/lua/blob/master/bin-release/bin/xx.lua)
+- [xx_min.lua : 包含所有功能](https://github.com/wx771720/lua/blob/master/bin-release/bin/xx_min.lua)
+> min 文件表示删除了 EmmyLua 注释
+---
 ## 1 核心部分：
 - 1.1 **`xx.newUID()` 获取一个运行时唯一字符串标识**
 - 1.2 **`xx.Class` 定义类：`local NewClass = xx.Class("NewClass"[, BaseClass])`->[example](https://github.com/wx771720/lua/blob/master/bin-release/test_class.lua)**
