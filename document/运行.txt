@@ -1,2 +1,0 @@
-执行
-lua ./bin-release/main.lua
