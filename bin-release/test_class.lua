@@ -21,15 +21,15 @@ function User:toString()
     return string.format("user[%s] : name = %s, gender = %s, age = %d", self.uid, self.name, gender, self.age)
 end
 
----XiMing
+---XiaoMing
 ---@type User
-local Bob = User("XiMing", 1, 22)
+local XiaoMing = User("XiaoMing", 1, 22)
 ---HanMeiMei
 ---@type User
 local HanMeiMei = User("HanMeiMei", -1, 18)
 
-print(Bob)
--- user[xx_lua_1] : name = XiMing, gender = boy, age = 22
+print(XiaoMing)
+-- user[xx_lua_1] : name = XiaoMing, gender = boy, age = 22
 print(HanMeiMei)
 -- user[xx_lua_2] : name = HanMeiMei, gender = girl, age = 18
 
