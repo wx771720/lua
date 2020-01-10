@@ -376,6 +376,12 @@ function Sprite:stretchBoth(left, right, top, bottom)
     self.gameObject:StretchBoth(left or 0, right or 0, top or 0, bottom or 0)
 end
 
+function Sprite:worldToLocal(worldX, worldY, worldZ)
+    return self.gameObject:WorldToLocal(worldX, worldY, worldZ)
+end
+function Sprite:localToWorld(localX, localY, localZ)
+    return self.gameObject:LocalToWorld(localX, localY, localZ)
+end
 function Sprite:screenToLocal(screenX, screenY)
     return self.gameObject:ScreenToLocal(screenX, screenY)
 end

@@ -279,6 +279,11 @@ local UnityEngineObject
 ---@field public SetRotation fun(self:GameObject,rotationZ:number,rotationY:number)
 ---@field public SetRotation fun(self:GameObject,rotationZ:number,rotationY:number,rotationX:number)
 ---
+---@field public WorldToLocal fun(self:GameObject,worldX:number,worldY:number,worldZ:number):Vector3
+---@field public WorldToLocal fun(self:GameObject,worldPoint:Vector3):Vector3
+---@field public LocalToWorld fun(self:GameObject,localX:number,localY:number,localZ:number):Vector3
+---@field public LocalToWorld fun(self:GameObject,localPoint:Vector3):Vector3
+---
 ---@field public GetPivotX fun(self:GameObject):number
 ---@field public SetPivotX fun(self:GameObject,pivotX:number)
 ---@field public GetPivotY fun(self:GameObject):number
@@ -331,8 +336,8 @@ local UnityEngineObject
 ---
 ---@field public ScreenToLocal fun(self:GameObject,screenX:number,screenY:number):Vector2
 ---@field public ScreenToLocal fun(self:GameObject,screenPoint:Vector2):Vector2
----@field public LocalToScreen fun(self:GameObject,screenX:number,screenY:number):Vector2
----@field public LocalToScreen fun(self:GameObject,screenPoint:Vector2):Vector2
+---@field public LocalToScreen fun(self:GameObject,localX:number,localY:number):Vector2
+---@field public LocalToScreen fun(self:GameObject,localPoint:Vector2):Vector2
 ---
 ---@field public SetBool fun(self:GameObject,name:string,value:boolean)
 ---@field public SetInteger fun(self:GameObject,name:string,value:number)
