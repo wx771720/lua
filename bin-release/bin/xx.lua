@@ -5307,6 +5307,39 @@ end
 function Sprite:setAutoSize(horizontal, vertical)
     self.gameObject:SetAutoSize(horizontal, vertical)
 end
+function Sprite:setBool(name, value)
+    self.gameObject:SetBool(name, value)
+end
+function Sprite:setInteger(name, value)
+    self.gameObject:SetInteger(name, value)
+end
+function Sprite:setFloat(name, value)
+    self.gameObject:SetFloat(name, value)
+end
+function Sprite:setTrigger(name)
+    self.gameObject:SetTrigger(name)
+end
+function Sprite:playAnimator(name)
+    self.gameObject:PlayAnimator(name)
+end
+function Sprite:playAnimator(name)
+    self.gameObject:PlayAnimator(name)
+end
+function Sprite:stopAnimator()
+    self.gameObject:StopAnimator()
+end
+function Sprite:updateAnimator(deltaTimeMS)
+    self.gameObject:UpdateAnimator(deltaTimeMS)
+end
+function Sprite:playParticleSystem(withChildren)
+    self.gameObject:PlayParticleSystem(true == withChildren)
+end
+function Sprite:pauseParticleSystem(withChildren)
+    self.gameObject:PauseParticleSystem(true == withChildren)
+end
+function Sprite:stopParticleSystem(withChildren)
+    self.gameObject:StopParticleSystem(true == withChildren)
+end
 ---unity 显示对象根代理
 ---@class Root:Sprite by wx771720@outlook.com 2019-10-12 16:38:20
 ---@field _rootGO GameObject 实际根节点
@@ -6423,11 +6456,11 @@ function MTween:onAppTimer(result, interval)
     end
 end
 ---@param result NoticeResult 直接返回结果
-function MTimer:onAppPause(result)
+function MTween:onAppPause(result)
     self._isPaused = true
 end
 ---@param result NoticeResult 直接返回结果
-function MTimer:onAppResume(result)
+function MTween:onAppResume(result)
     self._isPaused = false
 end
 ---@param result NoticeResult 直接返回结果

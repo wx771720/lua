@@ -308,11 +308,15 @@ function Sprite:_refreshIndex()
         child.gameObject.transform:SetSiblingIndex(i - 1)
     end
 end
-
+-- -----------------------------------------------------------------------------
+-- Holder
+-- -----------------------------------------------------------------------------
 function Sprite:getFromHolder(name)
     return self.gameObject:GetFromHolder(name)
 end
-
+-- -----------------------------------------------------------------------------
+-- Layout
+-- -----------------------------------------------------------------------------
 function Sprite:anchorSet(minX, minY, maxX, maxY, pivotX, pivotY, x, y)
     self.gameObject:AnchorSet(minX, minY, maxX, maxY, pivotX, pivotY, x, y)
 end
@@ -378,7 +382,9 @@ end
 function Sprite:localToScreen(screenX, screenY)
     return self.gameObject:LocalToScreen(screenX, screenY)
 end
-
+-- -----------------------------------------------------------------------------
+-- Image
+-- -----------------------------------------------------------------------------
 function Sprite:toImage()
     self.gameObject:ToImage()
     xx.Class.setter(self, Sprite.property_touchable, self.gameObject:GetTouchable())
@@ -470,7 +476,9 @@ end
 function Sprite:setOriginRadia360Left()
     self.gameObject:SetOriginRadia360Left()
 end
-
+-- -----------------------------------------------------------------------------
+-- Text
+-- -----------------------------------------------------------------------------
 function Sprite:toText()
     self.gameObject:ToText()
     xx.Class.setter(self, Sprite.property_touchable, self.gameObject:GetTouchable())
@@ -550,4 +558,43 @@ function Sprite:setAutoSizeVertical(autoSize)
 end
 function Sprite:setAutoSize(horizontal, vertical)
     self.gameObject:SetAutoSize(horizontal, vertical)
+end
+-- -----------------------------------------------------------------------------
+-- Animation
+-- -----------------------------------------------------------------------------
+function Sprite:setBool(name, value)
+    self.gameObject:SetBool(name, value)
+end
+function Sprite:setInteger(name, value)
+    self.gameObject:SetInteger(name, value)
+end
+function Sprite:setFloat(name, value)
+    self.gameObject:SetFloat(name, value)
+end
+function Sprite:setTrigger(name)
+    self.gameObject:SetTrigger(name)
+end
+function Sprite:playAnimator(name)
+    self.gameObject:PlayAnimator(name)
+end
+function Sprite:playAnimator(name)
+    self.gameObject:PlayAnimator(name)
+end
+function Sprite:stopAnimator()
+    self.gameObject:StopAnimator()
+end
+function Sprite:updateAnimator(deltaTimeMS)
+    self.gameObject:UpdateAnimator(deltaTimeMS)
+end
+-- -----------------------------------------------------------------------------
+-- 粒子
+-- -----------------------------------------------------------------------------
+function Sprite:playParticleSystem(withChildren)
+    self.gameObject:PlayParticleSystem(true == withChildren)
+end
+function Sprite:pauseParticleSystem(withChildren)
+    self.gameObject:PauseParticleSystem(true == withChildren)
+end
+function Sprite:stopParticleSystem(withChildren)
+    self.gameObject:StopParticleSystem(true == withChildren)
 end

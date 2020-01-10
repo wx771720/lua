@@ -3496,6 +3496,39 @@ end
 function Sprite:setAutoSize(horizontal, vertical)
     self.gameObject:SetAutoSize(horizontal, vertical)
 end
+function Sprite:setBool(name, value)
+    self.gameObject:SetBool(name, value)
+end
+function Sprite:setInteger(name, value)
+    self.gameObject:SetInteger(name, value)
+end
+function Sprite:setFloat(name, value)
+    self.gameObject:SetFloat(name, value)
+end
+function Sprite:setTrigger(name)
+    self.gameObject:SetTrigger(name)
+end
+function Sprite:playAnimator(name)
+    self.gameObject:PlayAnimator(name)
+end
+function Sprite:playAnimator(name)
+    self.gameObject:PlayAnimator(name)
+end
+function Sprite:stopAnimator()
+    self.gameObject:StopAnimator()
+end
+function Sprite:updateAnimator(deltaTimeMS)
+    self.gameObject:UpdateAnimator(deltaTimeMS)
+end
+function Sprite:playParticleSystem(withChildren)
+    self.gameObject:PlayParticleSystem(true == withChildren)
+end
+function Sprite:pauseParticleSystem(withChildren)
+    self.gameObject:PauseParticleSystem(true == withChildren)
+end
+function Sprite:stopParticleSystem(withChildren)
+    self.gameObject:StopParticleSystem(true == withChildren)
+end
 local Root = xx.Class("xx.Root", xx.Sprite)
 xx.Root = Root
 function Root:ctor(cvs, go)
@@ -4298,10 +4331,10 @@ function MTween:onAppTimer(result, interval)
         until true
     end
 end
-function MTimer:onAppPause(result)
+function MTween:onAppPause(result)
     self._isPaused = true
 end
-function MTimer:onAppResume(result)
+function MTween:onAppResume(result)
     self._isPaused = false
 end
 function MTween:onNew(result, ...)

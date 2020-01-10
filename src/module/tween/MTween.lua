@@ -123,12 +123,12 @@ function MTween:onAppTimer(result, interval)
 end
 
 ---@param result NoticeResult 直接返回结果
-function MTimer:onAppPause(result)
+function MTween:onAppPause(result)
     self._isPaused = true
 end
 
 ---@param result NoticeResult 直接返回结果
-function MTimer:onAppResume(result)
+function MTween:onAppResume(result)
     self._isPaused = false
 end
 
